@@ -1,0 +1,3381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Econ Cram — Chapters 9–11</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="theme-color" content="#101218">
+
+  <style>
+:root {
+  --bg: #101218;
+  --bg-elev: #171b24;
+  --bg-card: #1c212c;
+  --bg-hover: #252b38;
+  --text: #e8eaef;
+  --muted: #9aa3b2;
+  --faint: #6d7686;
+  --line: #2c3342;
+  --accent: #8bb4ff;
+  --accent-deep: #c9dcff;
+  --accent-bg: #1c2a44;
+  --ok: #3dd68c;
+  --ok-deep: #b6f5d3;
+  --ok-bg: #143226;
+  --bad: #ff7a7a;
+  --bad-deep: #ffd0d0;
+  --bad-bg: #3a1c1c;
+  --warn: #e6c07b;
+  --warn-bg: #322a16;
+  --focus: #b4ccff;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(0,0,0,.28);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.45;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: calc(12px + var(--safe-t)) calc(14px + var(--safe-r)) calc(28px + var(--safe-b)) calc(14px + var(--safe-l));
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+h1 { font-size: 1.45rem; line-height: 1.25; margin: 0 0 .35rem; letter-spacing: -0.02em; }
+h2 { font-size: 1.05rem; margin: 0 0 .6rem; }
+p { margin: 0 0 .75rem; }
+.wrap { max-width: 760px; margin: 0 auto; }
+.sub { color: var(--muted); font-size: .95rem; margin-bottom: 1rem; }
+.banner {
+  background: var(--accent-bg);
+  border: 1px solid #31466c;
+  color: var(--accent-deep);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: .92rem;
+}
+.banner.warn { background: var(--warn-bg); border-color: #5a4a22; color: var(--warn); }
+.banner.bad { background: var(--bad-bg); border-color: #6a3030; color: var(--bad-deep); }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.metric {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.metric b { display: block; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.metric span { display: block; color: var(--muted); font-size: .72rem; margin-top: 2px; }
+.toolbar, .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+label.field { display: flex; flex-direction: column; gap: 4px; font-size: .8rem; color: var(--muted); flex: 1 1 160px; }
+select, input[type="text"], input[type="search"] {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 12px;
+  min-height: 48px;
+  width: 100%;
+  color: var(--text);
+}
+select:focus, input:focus, button:focus-visible, .choice:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+.tabs button[aria-selected="true"] { background: var(--accent); color: #0d1420; }
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--bg-hover);
+  color: var(--text);
+  border-radius: 12px;
+  min-height: 48px;
+  padding: 10px 14px;
+  cursor: pointer;
+  flex: 1 1 auto;
+}
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.primary { background: var(--accent); color: #0d1420; border-color: transparent; font-weight: 650; }
+.btn.danger { background: var(--bad-bg); border-color: #6a3030; color: var(--bad-deep); }
+.btn.quiet { background: transparent; }
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+.meta { color: var(--muted); font-size: .86rem; margin-bottom: 8px; }
+.prompt { font-size: 1.08rem; font-weight: 600; margin-bottom: 12px; }
+.choices { display: flex; flex-direction: column; gap: 8px; }
+.choice {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 12px;
+  min-height: 52px;
+  cursor: pointer;
+}
+.choice input { margin-top: 4px; width: 20px; height: 20px; flex: 0 0 20px; accent-color: var(--accent); }
+.choice.selected { border-color: var(--accent); background: var(--accent-bg); }
+.choice.correct { border-color: var(--ok); background: var(--ok-bg); color: var(--ok-deep); }
+.choice.wrong { border-color: var(--bad); background: var(--bad-bg); color: var(--bad-deep); }
+.feedback { border-radius: 12px; padding: 12px; margin-top: 12px; }
+.feedback.ok { background: var(--ok-bg); color: var(--ok-deep); }
+.feedback.bad { background: var(--bad-bg); color: var(--bad-deep); }
+.feedback strong { display: block; margin-bottom: 4px; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.miss-block { margin-top: 16px; }
+.miss-block h3 { font-size: .95rem; margin: 0 0 8px; }
+.note { color: var(--faint); font-size: .82rem; margin-top: 16px; }
+kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--bg-hover); border: 1px solid var(--line); border-radius: 6px; padding: 0 5px; font-size: .85em; }
+.hidden { display: none !important; }
+.confirm { background: var(--warn-bg); border: 1px solid #5a4a22; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+@media (max-width: 640px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  body { font-size: 16px; }
+  table { font-size: .82rem; }
+  th, td { padding: 8px 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+.badge { display:inline-block; font-size:.75rem; font-weight:650; letter-spacing:.01em; border-radius:999px; padding:3px 8px; margin:0 6px 8px 0; }
+.badge-original { background:#1c2a44; color:var(--accent-deep); }
+.badge-supported { background:#1c2a44; color:var(--accent-deep); }
+.badge-recall { background:var(--warn-bg); color:var(--warn); }
+.badge-substitute { background:#243044; color:#c9d7f0; }
+.badge-supplemental { background:#2a2438; color:#d8c6ff; }
+#update-banner { display:none; }
+#update-banner.show { display:block; }
+.gap-item { background:var(--bg-elev); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:8px; }
+.gap-item strong { display:block; margin-bottom:4px; }
+</style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <h1>Econ Cram — Chapters 9–11</h1>
+    <p class="sub">Production costs, pure competition, and monopoly. Opens on a question immediately. Progress is saved in <em>this browser only</em> — not the cloud. Export a backup if you switch browsers or devices.</p>
+        <div id="update-banner" class="banner">A new version of the question bank is available. Reload to get it — scores already saved in this browser are kept.<br><button type="button" class="btn primary" id="btn-reload" style="margin-top:8px">Reload app</button></div>
+    <div id="storage-banner" class="banner warn hidden" role="status"></div>
+    <div class="metrics" aria-label="Session progress">
+      <div class="metric"><b id="m-answered">0</b><span>Answered</span></div>
+      <div class="metric"><b id="m-accuracy">—</b><span>Accuracy</span></div>
+      <div class="metric"><b id="m-cover">0/—</b><span>First-pass coverage</span></div>
+      <div class="metric"><b id="m-mastered">0/—</b><span>Mastered (2 in a row)</span></div>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="btn" id="tab-drill" role="tab" aria-selected="true">Drill</button>
+      <button type="button" class="btn" id="tab-progress" role="tab" aria-selected="false">Progress &amp; misses</button>
+    </div>
+    <div id="pane-drill" role="tabpanel">
+      <div class="toolbar">
+        <label class="field">Section
+          <select id="filter">
+            <option value="mixed">Mixed (all sections)</option>
+            <option value="ch9p1">Ch 9 Part 1</option>
+            <option value="ch9p2">Ch 9 Part 2</option>
+            <option value="ch10p1">Ch 10 Part 1</option>
+            <option value="ch10p2">Ch 10 Part 2</option>
+            <option value="ch11">Ch 11</option>
+          </select>
+        </label>
+        <div class="tabs" role="group" aria-label="Drill mode" style="margin:0;flex:1 1 220px">
+          <button type="button" class="btn" id="mode-drill" aria-selected="true">Cover-everything</button>
+          <button type="button" class="btn" id="mode-missed" aria-selected="false">Missed / weak spots</button>
+        </div>
+      </div>
+      <div class="row">
+        <button type="button" class="btn" id="btn-export">Export backup</button>
+        <button type="button" class="btn" id="btn-import">Import backup</button>
+        <input id="import-file" type="file" accept="application/json,.json" class="hidden">
+        <button type="button" class="btn danger" id="btn-reset">Reset session</button>
+      </div>
+      <div id="reset-confirm" class="confirm hidden">
+        <p>Erase all scores and saved progress in this browser? This cannot be undone unless you already exported a backup.</p>
+        <div class="row" style="margin:0">
+          <button type="button" class="btn danger" id="btn-reset-yes">Yes, reset everything</button>
+          <button type="button" class="btn" id="btn-reset-no">Cancel</button>
+        </div>
+      </div>
+      <div id="first-pass" class="banner hidden">First pass complete — you have seen every question in this filter. Keep going for mastery (2 correct each). Missed items and weaker sections get priority.</div>
+      <div id="all-mastered" class="banner hidden">Every question in this filter has 2 correct retrievals. You can keep drilling, switch to missed / weak spots, or reset for a fresh run.</div>
+      <p id="empty-state" class="sub hidden"></p>
+      <div class="card" id="question-card">
+        <div class="meta" id="q-meta"></div>
+        <div class="meta" id="q-concept"></div>
+        <div class="prompt" id="q-prompt"></div>
+        <div id="num-wrap" class="hidden">
+          <label class="field">Your answer
+            <input id="num-input" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="e.g. 24,000 or 7.5">
+          </label>
+        </div>
+        <div id="choices" class="choices" role="group"></div>
+        <div class="row" style="margin-top:12px;margin-bottom:0">
+          <button type="button" class="btn primary" id="btn-submit">Submit</button>
+          <button type="button" class="btn primary hidden" id="btn-continue">Continue</button>
+        </div>
+        <div id="feedback" class="feedback hidden"></div>
+      </div>
+      <p class="note">Keys <kbd>1</kbd>–<kbd>4</kbd> select choices; <kbd>Enter</kbd> submits or continues (safe while typing a number: Enter still submits). A miss returns after a few other questions. Mastery needs 2 correct answers; a miss resets that streak.</p>
+    </div>
+    <div id="pane-progress" class="hidden" role="tabpanel">
+      <h2>Where you’re messing up</h2>
+      <p class="sub">Exact source groups from your notes. Accuracy is — until a section has at least one attempt (unattempted is not 0%). Coverage is unique questions seen. Mastery requires 2 correct answers in a row.</p>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th class="num">Coverage</th>
+              <th class="num">Attempts</th>
+              <th class="num">Correct</th>
+              <th class="num">Accuracy</th>
+              <th class="num">Mastered</th>
+              <th class="num">Unmastered</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="section-rows"></tbody>
+        </table>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button type="button" class="btn" id="btn-mixed">Back to mixed drill</button>
+      </div>
+      <h2 style="margin-top:1.2rem">Missed questions</h2>
+      <div id="miss-list"></div>
+
+      <h2 style="margin-top:1.2rem">Needs original table/graph, and source gaps</h2>
+      <p class="sub">The fuller log is a study record, not a verified 133-question key. Items below were missing exhibits or exact wording. Labeled recall, substitute, or supplemental drills were added only where noted; exact missing prompts were not invented.</p>
+      <div id="gap-list"></div>
+      <h2 style="margin-top:1.2rem">Already in the original bank (not duplicated)</h2>
+      <div id="dedupe-list"></div>
+
+    </div>
+    <p class="note">This file is a standalone app you open in a normal web browser (Safari, Chrome, etc.). It is not a hosted website. On iPhone, open the file in Safari; the Files app preview often will not run scripts, so the drill may appear blank or lifeless there. Progress stays in this browser’s local storage on this device. It will not sync to other phones, browsers, or private/incognito sessions. Export a JSON backup if you care about keeping your scores.</p>
+  </div>
+  <script>
+  (function (root) {
+  const QUESTIONS = [
+  {
+    "id": "c9p1-01",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #1",
+    "concept": "Economic cost = value in best alternative use",
+    "prompt": "The economic cost of a resource is best defined as:",
+    "kind": "mc",
+    "options": [
+      "its value in the best alternative use",
+      "the historical cash price originally paid for it",
+      "accounting depreciation charged on that resource",
+      "replacement cost minus the resource's salvage value"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Economic cost is an opportunity cost: what the resource would be worth in its best alternative use.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-02",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #2",
+    "concept": "Explicit costs are monetary payments",
+    "prompt": "Explicit costs are:",
+    "kind": "mc",
+    "options": [
+      "monetary payments for labor, materials, fuel, transportation, and resources owned by others",
+      "the forgone value of resources the firm already owns and uses itself",
+      "noncash reductions in net worth that never involve a payment",
+      "only interest and depreciation on owner-supplied capital"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Explicit costs are cash payments for inputs such as labor, materials, fuel, and transportation, including resources owned by others.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-03",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #3",
+    "concept": "Explicit costs are opportunity costs",
+    "prompt": "Explicit costs are opportunity costs because:",
+    "kind": "mc",
+    "options": [
+      "the money used to pay them has alternative uses",
+      "they never appear on accounting statements",
+      "they are incurred only in the long run",
+      "they equal economic profit plus implicit costs"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Money spent on explicit costs could have been spent on something else, so those payments are opportunity costs.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-04",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #4",
+    "concept": "Using owned resources is an implicit cost",
+    "prompt": "Using resources the firm already owns, rather than selling them, is:",
+    "kind": "mc",
+    "options": [
+      "an implicit cost",
+      "an explicit cost",
+      "an accounting profit",
+      "a cash outlay to an outside supplier"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The opportunity cost of using the firm's own resources instead of selling them is an implicit cost.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-05",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #5",
+    "concept": "Accounting profit = TR − explicit costs",
+    "prompt": "Accounting profit equals:",
+    "kind": "mc",
+    "options": [
+      "total revenue minus explicit costs",
+      "total revenue minus implicit costs only",
+      "total revenue minus all economic costs",
+      "economic profit minus implicit costs"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Accounting profit is total revenue minus explicit costs. It does not subtract implicit costs.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-06",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #6",
+    "concept": "Economic profit = accounting profit − implicit costs",
+    "prompt": "Economic profit equals:",
+    "kind": "mc",
+    "options": [
+      "accounting profit minus implicit costs",
+      "accounting profit plus implicit costs",
+      "total revenue minus explicit costs only",
+      "implicit costs minus explicit costs"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Economic profit = accounting profit − implicit costs, which is also TR − explicit costs − implicit costs.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-07",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #7",
+    "concept": "Economic profit when cost is $96,000 and TR is $120,000",
+    "prompt": "A firm has economic costs of $96,000 and total revenue of $120,000. What is its economic profit? Enter a number (commas or $ are OK).",
+    "kind": "num",
+    "numeric": 24000,
+    "tolerance": 0,
+    "explanation": "Economic profit = total revenue − economic cost = $120,000 − $96,000 = $24,000.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-08",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · #8",
+    "concept": "Short run: plant capacity fixed; intensity of use can change",
+    "prompt": "In the short run, a firm:",
+    "kind": "mc",
+    "options": [
+      "cannot change plant capacity, but can change how intensely it uses the fixed plant",
+      "can freely enter or exit the industry and resize its plant",
+      "cannot change any input, including labor and materials",
+      "can change plant capacity but cannot change labor use"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The short run is too brief to change plant capacity, but the firm can change the degree of use of its fixed plant.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-01",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #1",
+    "concept": "Variable costs change with output",
+    "prompt": "Variable costs:",
+    "kind": "mc",
+    "options": [
+      "change with the firm's output",
+      "stay the same at every output, including zero",
+      "equal total fixed cost divided by output",
+      "exist only after the firm enters the long run"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Variable costs change as output changes. Fixed costs do not.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-02",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #2",
+    "concept": "TC at Q=10 when TFC=50 and TVC=75",
+    "prompt": "If output is 10, TFC is $50, and TVC is $75, what is total cost? Enter a number (commas or $ are OK).",
+    "kind": "num",
+    "numeric": 125,
+    "tolerance": 0,
+    "explanation": "TC = TFC + TVC = $50 + $75 = $125.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-03",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #3",
+    "concept": "TVC on a total-cost graph: from the X-axis, or TC − TFC",
+    "prompt": "How is TVC measured on a total-cost graph?",
+    "kind": "mc",
+    "options": [
+      "as the vertical distance from the X-axis up to the TVC curve, or as the vertical gap TC − TFC",
+      "as the horizontal distance from the origin to the chosen output level",
+      "as the slope of the AFC curve at that output",
+      "as the vertical gap between ATC and AVC on a per-unit graph only"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "On a total-cost graph, TVC is the vertical distance from the X-axis to the TVC curve. Equivalently, the vertical gap TC − TFC equals TVC. That “from the X-axis” reading applies to a total-cost graph, not as a substitute for reading per-unit curves.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-04",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #4",
+    "concept": "Average-cost data allow per-unit price comparison",
+    "prompt": "Average-cost data are especially useful because they:",
+    "kind": "mc",
+    "options": [
+      "allow comparison with price on a per-unit basis",
+      "replace any need to know total cost or total revenue",
+      "stay constant as the firm changes its output",
+      "equal marginal revenue in every market structure"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Average-cost figures put cost on a per-unit basis, so they can be compared directly with price.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-05",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #5",
+    "concept": "AFC declines as output increases",
+    "prompt": "As output increases, average fixed cost (AFC):",
+    "kind": "mc",
+    "options": [
+      "declines",
+      "rises continuously",
+      "is U-shaped, falling and then rising",
+      "remains equal to total fixed cost"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "AFC = TFC / Q, so AFC declines as output increases (fixed cost is spread over more units).",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-06",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #6",
+    "concept": "AVC = TVC / Q",
+    "prompt": "If TVC is $75 at Q = 10, what is AVC? Enter a number (commas or $ are OK).",
+    "kind": "num",
+    "numeric": 7.5,
+    "tolerance": 0.01,
+    "explanation": "AVC = TVC / Q = 75 / 10 = 7.5.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-07",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #7",
+    "concept": "AVC falls and then rises",
+    "prompt": "The AVC curve typically:",
+    "kind": "mc",
+    "options": [
+      "falls at first and then rises",
+      "rises at first and then falls",
+      "declines continuously, like AFC",
+      "is a horizontal line at the level of TFC"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "AVC is U-shaped: it falls at first and then rises.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-08",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #8",
+    "concept": "Falling AVC: greater specialization; rising AVC: diminishing returns",
+    "prompt": "The initial falling portion of the AVC curve is explained by:",
+    "kind": "mc",
+    "options": [
+      "greater specialization",
+      "diminishing returns",
+      "rising AFC as output grows",
+      "a rightward shift of market demand"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Greater specialization explains the initial falling portion of AVC. Diminishing returns explain the later rising portion.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-09",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #8",
+    "concept": "Rising AVC is explained by diminishing returns",
+    "prompt": "The later rising portion of the AVC curve is explained by:",
+    "kind": "mc",
+    "options": [
+      "diminishing returns",
+      "greater specialization",
+      "falling AFC as output grows",
+      "a leftward shift of market demand"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Diminishing returns explain the rising portion of AVC. Greater specialization explains the earlier falling portion.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p2-10",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · #9",
+    "concept": "ATC = AFC + AVC and also TC / Q",
+    "prompt": "Select all statements that correctly define ATC.",
+    "kind": "multi",
+    "options": [
+      "ATC equals AFC + AVC",
+      "ATC equals TC / Q",
+      "ATC equals TFC / Q",
+      "ATC equals TVC − TFC"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "ATC can be written both as AFC + AVC and as TC / Q. TFC / Q is AFC, not ATC.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-01",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #1",
+    "concept": "Price to the buyer = AR to the seller",
+    "prompt": "In pure competition, the price paid by the buyer equals:",
+    "kind": "mc",
+    "options": [
+      "average revenue to the seller",
+      "marginal cost at every output, by definition",
+      "average fixed cost of the seller",
+      "total revenue divided by marginal revenue"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The price the buyer pays is average revenue to the seller. In pure competition, P = AR.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-02",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #2",
+    "concept": "Perfectly elastic firm demand: no need to cut P; cannot raise P by restricting Q",
+    "prompt": "A perfectly elastic demand curve for a competitive firm means (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "the firm need not lower price to increase its sales",
+      "the firm cannot obtain a higher price by restricting its output",
+      "the firm must cut price to sell each extra unit",
+      "the firm can raise price without losing any of its sales"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "With perfectly elastic demand at the market price, the firm can sell more without cutting price, and it cannot get a higher price by restricting its own output.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-03",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #3",
+    "concept": "Pure competition is rare in the real world",
+    "prompt": "Pure competition is:",
+    "kind": "mc",
+    "options": [
+      "rare in the real world",
+      "the most common U.S. market structure",
+      "identical to monopolistic competition",
+      "only a description of pure monopoly"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Pure competition is rare in the real world, even though it is a key benchmark model.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-04",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #4–#7",
+    "concept": "Competitive firms are price takers",
+    "prompt": "Firms in a purely competitive market are:",
+    "kind": "mc",
+    "options": [
+      "price takers",
+      "price makers",
+      "guaranteed long-run economic profits",
+      "protected by legal barriers to entry"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Purely competitive firms are price takers: they take the market price as given.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-05",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #5",
+    "concept": "Products in pure competition are standardized",
+    "prompt": "In pure competition, products are:",
+    "kind": "mc",
+    "options": [
+      "standardized",
+      "heavily differentiated by brand",
+      "unique, with no close substitutes",
+      "always protected by patents"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Pure competition is characterized by standardized products.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-06",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #6–#7",
+    "concept": "A price taker cannot change market price; it can only adjust output",
+    "prompt": "A price taker:",
+    "kind": "mc",
+    "options": [
+      "cannot change the market price and can only adjust its own output",
+      "sets price by choosing any point on market demand",
+      "raises the market price by restricting its own output alone",
+      "must lower price to sell each additional unit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "A price taker cannot change the market price; it can only adjust the quantity it produces and sells.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-07",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #8",
+    "concept": "TR = P × Q",
+    "prompt": "Total revenue equals:",
+    "kind": "mc",
+    "options": [
+      "price times quantity",
+      "price minus average total cost",
+      "marginal revenue times marginal cost",
+      "price times average fixed cost"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Total revenue is price times quantity: TR = P × Q.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-08",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #9",
+    "concept": "MR is the change in TR from selling one more unit",
+    "prompt": "Marginal revenue is:",
+    "kind": "mc",
+    "options": [
+      "the change in total revenue from selling one more unit",
+      "price minus average total cost",
+      "total revenue divided by price",
+      "the change in total cost from producing one more unit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Marginal revenue is the change in total revenue from selling one additional unit.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-09",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #10",
+    "concept": "Firm demand schedule = MR and AR; all equal P",
+    "prompt": "For a purely competitive firm, the demand schedule is also (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "the marginal-revenue schedule",
+      "the average-revenue schedule",
+      "the marginal-cost schedule",
+      "the average-fixed-cost schedule"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "The competitive firm's demand schedule is also its MR and AR schedules, and all of them equal the market price P.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-10",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #11",
+    "concept": "Short run: maximize profit or minimize loss by adjusting output",
+    "prompt": "In the short run, a competitive firm maximizes profit or minimizes loss by:",
+    "kind": "mc",
+    "options": [
+      "adjusting its output",
+      "changing its plant capacity",
+      "freely exiting and selling the plant",
+      "setting a price above the given market price"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In the short run the firm maximizes profit or minimizes loss by adjusting output (plant capacity is fixed).",
+    "origin": "original"
+  },
+  {
+    "id": "c10p1-11",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · #12",
+    "concept": "Find max-profit / min-loss output with MR vs MC or TR vs TC",
+    "prompt": "To determine the output that maximizes profit or minimizes loss, a firm can compare (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "marginal revenue and marginal cost",
+      "total revenue and total cost",
+      "average fixed cost and market demand",
+      "price and average product only"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "Either the MR–MC approach or the TR–TC approach can be used to find the max-profit or min-loss output.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-01",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #1",
+    "concept": "Quantity supplied rises with P, ceteris paribus, on rising MC above shutdown",
+    "prompt": "In the short run, a competitive firm's quantity supplied tends to increase as price rises:",
+    "kind": "mc",
+    "options": [
+      "ceteris paribus, along upward-sloping MC above the shutdown (minimum AVC) point",
+      "automatically at every price, even when the firm's cost curves also shift",
+      "only along the declining portion of the AVC curve",
+      "only when price is below minimum AVC"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Quantity supplied rises with price along the upward-sloping MC curve above the shutdown point (min AVC), other things equal. That is not an unconditional claim that every price increase raises supply if cost curves are also shifting.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-02",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #2",
+    "concept": "P < min AVC → shut down",
+    "prompt": "If price is below minimum AVC, a competitive firm should:",
+    "kind": "mc",
+    "options": [
+      "shut down and produce zero output",
+      "expand output until price equals ATC",
+      "keep producing wherever price equals MC",
+      "enter the industry immediately"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "If P is below minimum AVC, the firm cannot cover its variable costs and should shut down in the short run.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-03",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #3",
+    "concept": "P = min AVC: indifferent between producing and shutting down",
+    "prompt": "If price equals minimum AVC, the firm is:",
+    "kind": "mc",
+    "options": [
+      "indifferent between producing and shutting down",
+      "earning a positive economic profit",
+      "covering all of its fixed costs with certainty",
+      "required to exit the industry in the short run"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "At P = minimum AVC (the shutdown point), the firm is indifferent between producing and shutting down.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-04",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #4",
+    "concept": "If AVC < P < ATC, operate at a loss but cover variable costs and part of fixed cost",
+    "prompt": "When AVC < P < ATC, a firm that continues to produce:",
+    "kind": "mc",
+    "options": [
+      "incurs a loss but covers all variable costs and part of its fixed costs",
+      "shuts down and pays only its variable costs",
+      "earns a positive economic profit",
+      "covers all fixed costs and earns a normal profit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "If AVC < P < ATC, the firm loses money but should operate: price covers all variable costs and some fixed costs, so the loss is smaller than TFC (the shutdown loss). The notes' P3/Q3 graph is missing, so use this explicit case rather than a fabricated diagram. Use the strict inequality so “part of fixed costs” is positive.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-05",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #5",
+    "concept": "Increasing-cost industry: ATC down when industry contracts, up when it expands",
+    "prompt": "In an increasing-cost industry, ATC (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "shifts down when the industry contracts",
+      "shifts up when the industry expands",
+      "shifts up when the industry contracts",
+      "is unaffected by industry expansion or contraction"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "In an increasing-cost industry, ATC shifts down when the industry contracts and shifts up when the industry expands.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-06",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #6",
+    "concept": "Technology and variable-input prices shift MC and short-run supply",
+    "prompt": "Changes in technology or in the prices of variable inputs:",
+    "kind": "mc",
+    "options": [
+      "change costs and shift MC and short-run supply",
+      "affect only the demand curve, not costs",
+      "change fixed cost but never marginal cost",
+      "occur only under pure monopoly"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Technology and variable-input prices change costs, which shifts the MC curve and the short-run supply curve.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-07",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #7",
+    "concept": "TR = P × Q",
+    "prompt": "If a competitive firm charges $8 and sells 15 units, what is total revenue? Enter a number (commas or $ are OK).",
+    "kind": "num",
+    "numeric": 120,
+    "tolerance": 0,
+    "explanation": "TR = P × Q = 8 × 15 = 120.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-08",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #8",
+    "concept": "Entry and exit are long-run adjustments",
+    "prompt": "Entry and exit of firms are:",
+    "kind": "mc",
+    "options": [
+      "long-run adjustments",
+      "the only short-run way to change a firm's output",
+      "impossible in pure competition",
+      "short-run responses that leave industry size fixed"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Entry and exit are long-run adjustments, not short-run responses.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-09",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #9",
+    "concept": "In the long run, competitive firms tend to produce at min ATC",
+    "prompt": "In the long run, purely competitive firms tend to produce at:",
+    "kind": "mc",
+    "options": [
+      "minimum average total cost",
+      "the minimum point on AFC only",
+      "an output where price stays above ATC",
+      "an output that permanently maximizes economic profit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In long-run competitive equilibrium, firms tend to produce at minimum ATC (and earn zero economic / normal profit).",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-10",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #10",
+    "concept": "Invisible hand: consumer satisfaction and profit-maximizing producers; not permanent max profits",
+    "prompt": "The invisible-hand result in competitive markets includes (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "a resource allocation that maximizes consumer satisfaction",
+      "profit-maximizing behavior by individual producers",
+      "permanently maximal economic profits for each firm",
+      "guaranteed shortages that keep market prices rising"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "The invisible-hand outcome is a resource allocation that maximizes consumer satisfaction, arising from profit-maximizing individual producers. That does not mean firms keep positive or maximal economic profits: in long-run competitive equilibrium, economic profit is zero (normal profit only).",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-11",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #11",
+    "concept": "Economic profits attract entry",
+    "prompt": "Economic profits in a competitive industry:",
+    "kind": "mc",
+    "options": [
+      "attract entry of new firms",
+      "cause immediate exit of existing firms",
+      "are protected by legal barriers in the long run",
+      "shift market demand to the left"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Economic profits attract entry of new firms into the industry.",
+    "origin": "original"
+  },
+  {
+    "id": "c10p2-12",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · #12",
+    "concept": "Demand down → losses → exit → industry supply down → market price rises",
+    "prompt": "If market demand decreases, the typical long-run adjustment is:",
+    "kind": "mc",
+    "options": [
+      "losses, then firms exit, industry supply decreases, and market price rises",
+      "profits, then firms enter, industry supply increases, and market price falls",
+      "firms change plant capacity immediately but never exit",
+      "price stays fixed and only monopoly profits appear"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "A decrease in demand produces losses; firms exit in the long run; industry supply decreases; and the market price rises.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-01",
+    "section": "ch11",
+    "source": "Ch 11 · #1",
+    "concept": "If producing beats shutdown, the monopolist produces at MR = MC",
+    "prompt": "If production is preferable to shutting down, a monopolist produces the output where:",
+    "kind": "mc",
+    "options": [
+      "MR = MC",
+      "P = MC",
+      "P = minimum ATC",
+      "MR = ATC"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Under the operating condition (production preferable to shutdown), the monopolist produces where MR = MC. The price it charges is then read from the demand curve at that output, not from the MR curve.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-02",
+    "section": "ch11",
+    "source": "Ch 11 · #2",
+    "concept": "No monopoly supply curve: does not equate P and MC; no unique P for each Q",
+    "prompt": "A pure monopolist has no supply curve because (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "the monopolist does not equate price with marginal cost",
+      "there is no unique price associated with each output",
+      "marginal revenue is always equal to price",
+      "the firm is a price taker at the market price"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "There is no monopoly supply curve because the monopolist does not equate P and MC, and because there is no unique price for each output.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-03",
+    "section": "ch11",
+    "source": "Ch 11 · #3",
+    "concept": "Lower per-unit profit is accepted if extra sales more than compensate",
+    "prompt": "A monopolist will accept a lower profit per unit when:",
+    "kind": "mc",
+    "options": [
+      "additional sales more than compensate for the lower per-unit profit",
+      "average revenue falls below average variable cost",
+      "marginal revenue is already negative and still falling",
+      "price is set equal to marginal cost at every output"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The firm will accept lower per-unit profit if the additional sales more than compensate, so total profit still rises.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-04",
+    "section": "ch11",
+    "source": "Ch 11 · #4",
+    "concept": "Entry barriers can preserve long-run economic profit",
+    "prompt": "A monopolist can maintain economic profit in the long run because:",
+    "kind": "mc",
+    "options": [
+      "barriers prevent entrants from expanding supply, driving price down, and eliminating the profit",
+      "it must charge P = MC, which guarantees a normal profit",
+      "economic profit is zero in every market structure",
+      "demand is perfectly elastic, so price cannot fall"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Barriers to entry can preserve long-run economic profit because new firms do not enter, expand supply, drive the price down, and eliminate the profit.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-05",
+    "section": "ch11",
+    "source": "Ch 11 · #5",
+    "concept": "Monopoly is not productively efficient in the textbook model",
+    "prompt": "In the standard textbook model, monopoly is not productively efficient because:",
+    "kind": "mc",
+    "options": [
+      "output is not at minimum ATC",
+      "the firm produces at the minimum point of ATC",
+      "price is always equal to minimum AVC",
+      "MR lies above the demand curve"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Productive efficiency requires output at minimum ATC. In the textbook monopoly model, output is not at min ATC, so the firm is not productively efficient.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-06",
+    "section": "ch11",
+    "source": "Ch 11 · #6",
+    "concept": "Higher monopoly price as a “private tax” on consumers",
+    "prompt": "The higher price under monopoly, compared with a competitive price, is often described as:",
+    "kind": "mc",
+    "options": [
+      "a “private tax” on consumers",
+      "a subsidy paid to consumers",
+      "a fair-return price equal to ATC",
+      "an X-efficiency gain for buyers"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The higher monopoly price, relative to the competitive price, is described as a “private tax” on consumers.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-07",
+    "section": "ch11",
+    "source": "Ch 11 · #7",
+    "concept": "Natural monopoly: only one firm can achieve needed economies of scale",
+    "prompt": "A natural monopoly arises when:",
+    "kind": "mc",
+    "options": [
+      "only one firm can achieve the needed economies of scale",
+      "many firms can produce at identical minimum LRATC",
+      "products are standardized and entry is easy",
+      "demand is perfectly elastic at the market price"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "If only one firm can achieve the needed economies of scale, the market is a natural monopoly.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-08",
+    "section": "ch11",
+    "source": "Ch 11 · #8",
+    "concept": "X-inefficiency is cost above the lowest possible cost for a given output",
+    "prompt": "X-inefficiency means:",
+    "kind": "mc",
+    "options": [
+      "producing at a cost above the lowest possible cost for a given output",
+      "producing exactly at minimum ATC",
+      "charging a different price to each buyer",
+      "setting P = MC and earning a normal profit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "X-inefficiency is producing at a cost higher than the lowest possible cost for that output.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-09",
+    "section": "ch11",
+    "source": "Ch 11 · #9",
+    "concept": "Monopoly abuse can lead to prohibited activities or breakup",
+    "prompt": "If a monopoly abuses its power, policy responses can include:",
+    "kind": "mc",
+    "options": [
+      "prohibiting certain activities or breaking the firm into competing firms",
+      "guaranteeing the firm a private tax on all buyers",
+      "requiring the firm to produce where MR is negative",
+      "banning all regulation, including fair-return pricing"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Abuse of monopoly power can lead to prohibited activities or to breaking the firm into competing firms.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-10",
+    "section": "ch11",
+    "source": "Ch 11 · #10",
+    "concept": "Price discrimination: different prices to buyers for the same product",
+    "prompt": "Price discrimination means:",
+    "kind": "mc",
+    "options": [
+      "charging different prices to different buyers for the same product",
+      "charging every buyer a price equal to marginal cost",
+      "selling different products under a single brand name",
+      "cutting output so that one market price rises"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Price discrimination is charging different prices to different buyers for the same product.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-11",
+    "section": "ch11",
+    "source": "Ch 11 · #11",
+    "concept": "Market segregation is necessary for price discrimination",
+    "prompt": "A necessary condition for price discrimination is:",
+    "kind": "mc",
+    "options": [
+      "market segregation (the seller can separate buyers)",
+      "a perfectly elastic demand curve for the firm",
+      "free resale among all buyers of the product",
+      "identical price elasticities in every buyer group"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Market segregation is necessary for price discrimination: the seller must be able to separate buyers (and prevent resale from undermining the price differences).",
+    "origin": "original"
+  },
+  {
+    "id": "c11-12",
+    "section": "ch11",
+    "source": "Ch 11 · #12",
+    "concept": "Airlines charge more to inelastic business travelers, less to elastic vacationers",
+    "prompt": "Airlines typically:",
+    "kind": "mc",
+    "options": [
+      "charge more to inelastic business travelers and less (with restrictions) to elastic vacationers",
+      "charge more to elastic vacationers and less to business travelers",
+      "charge one price because all fare differences are impossible",
+      "refuse to separate business and vacation markets"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Airlines charge higher fares to inelastic business travelers and lower, more restricted fares to elastic vacationers.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-13",
+    "section": "ch11",
+    "source": "Ch 11 · #13",
+    "concept": "The claim that U.S. price discrimination is rare is false",
+    "prompt": "True or false: Price discrimination is rare in the United States.",
+    "kind": "mc",
+    "options": [
+      "False — the claim is not correct",
+      "True — it almost never occurs",
+      "True, but only in airline markets",
+      "True, but only for natural monopolies"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The claim that price discrimination is rare in the United States is false.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-14",
+    "section": "ch11",
+    "source": "Ch 11 · #14",
+    "concept": "Natural monopoly: demand crosses LRATC while LRATC is still declining",
+    "prompt": "For a natural monopoly, market demand crosses LRATC:",
+    "kind": "mc",
+    "options": [
+      "while LRATC is still declining",
+      "only after LRATC has begun to rise",
+      "at the minimum point of MC only",
+      "when LRATC is already horizontal at the competitive price"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In a natural monopoly, demand crosses LRATC while LRATC is still declining.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-15",
+    "section": "ch11",
+    "source": "Ch 11 · #15",
+    "concept": "Socially optimal / allocative efficiency: P = MC",
+    "prompt": "The socially optimal (allocatively efficient) price is:",
+    "kind": "mc",
+    "options": [
+      "P = MC",
+      "P = ATC",
+      "P = AVC",
+      "P = MR"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Allocative efficiency, the socially optimal price, is P = MC.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-16",
+    "section": "ch11",
+    "source": "Ch 11 · #16",
+    "concept": "A socially optimal pricing loss can be addressed by subsidy or price discrimination",
+    "prompt": "A loss from a regulated socially optimal price can be addressed by (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "a public subsidy",
+      "price discrimination",
+      "forcing price still lower, below marginal cost",
+      "banning all regulation of the firm"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "A loss caused by regulated socially optimal pricing (P = MC) can be addressed by a public subsidy or by price discrimination.",
+    "origin": "original"
+  },
+  {
+    "id": "c11-17",
+    "section": "ch11",
+    "source": "Ch 11 · #17",
+    "concept": "Fair-return P = ATC: normal profit; socially optimal P = MC: loss in the natural-monopoly case",
+    "prompt": "In the natural-monopoly regulation case (select all that apply):",
+    "kind": "multi",
+    "options": [
+      "fair-return pricing (P = ATC) yields a normal profit",
+      "socially optimal pricing (P = MC) can cause an economic loss",
+      "fair-return pricing (P = ATC) maximizes economic profit",
+      "socially optimal pricing (P = MC) always yields a positive profit"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "Fair-return pricing, P = ATC, yields a normal profit. Socially optimal pricing, P = MC, can cause an economic loss in the natural-monopoly case, because MC lies below ATC while LRATC is still falling.",
+    "origin": "original"
+  },
+  {
+    "id": "c9p1-b03",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #3",
+    "origin": "supported",
+    "concept": "Diminishing extra output is the law of diminishing returns",
+    "prompt": "The decline in extra output as more of a variable input is added to a fixed input is called:",
+    "kind": "mc",
+    "options": [
+      "the law of diminishing returns",
+      "the law of increasing returns to scale",
+      "the law of demand",
+      "X-inefficiency"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Diminishing extra (marginal) output as more of a variable resource is added to a fixed resource is the law of diminishing returns."
+  },
+  {
+    "id": "c9p1-b04",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #4",
+    "origin": "supported",
+    "concept": "Hiring additional workers is a short-run adjustment",
+    "prompt": "Which of the following is a short-run adjustment?",
+    "kind": "mc",
+    "options": [
+      "A local bakery hires two additional bakers",
+      "A bakery builds a second production plant",
+      "A new firm enters the industry and opens a factory",
+      "An existing bakery sells its building and exits"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Hiring more labor uses the existing plant more intensively. Changing plant capacity, entering, or exiting are long-run adjustments."
+  },
+  {
+    "id": "c9p1-b06",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #6",
+    "origin": "supported",
+    "concept": "Law of diminishing returns: MP declines beyond some point",
+    "prompt": "The law of diminishing returns says that:",
+    "kind": "mc",
+    "options": [
+      "as extra units of a variable resource are added to a fixed resource, marginal product will decline beyond some point",
+      "all resources are variable in the short run, so MP never falls",
+      "marginal product rises continuously as more labor is hired",
+      "average product is always equal to marginal product"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Beyond some point, adding more of a variable resource to a fixed resource causes marginal product to decline."
+  },
+  {
+    "id": "c9p1-b07",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #7",
+    "origin": "supported",
+    "concept": "When TP is increasing, MP may be rising or falling",
+    "prompt": "When total product is increasing, marginal product:",
+    "kind": "mc",
+    "options": [
+      "could be either increasing or decreasing",
+      "must be increasing",
+      "must be negative",
+      "must be zero"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "TP rises whenever MP is positive. In that range MP itself may still be rising or already falling."
+  },
+  {
+    "id": "c9p1-b09",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #9",
+    "origin": "supported",
+    "concept": "Short run vs long run: fixed vs all-variable resources",
+    "prompt": "The key difference between the short run and the long run is that:",
+    "kind": "mc",
+    "options": [
+      "at least one resource is fixed in the short run, while all resources are variable in the long run",
+      "all resources are fixed in both the short run and the long run",
+      "firms can enter or exit only in the short run",
+      "the long run is defined as any period shorter than one year"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In the short run at least one resource (typically plant capacity) is fixed. In the long run all resources are variable, and firms can enter or exit."
+  },
+  {
+    "id": "c9p1-b10",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #10",
+    "origin": "supported",
+    "concept": "Total output is maximized when MP is zero",
+    "prompt": "Total output is maximized when:",
+    "kind": "mc",
+    "options": [
+      "marginal product is zero",
+      "marginal product is at its maximum",
+      "average product is zero",
+      "marginal product is negative and falling rapidly"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "TP is at a maximum when MP hits zero. Further units of the variable input would have negative MP and would reduce TP."
+  },
+  {
+    "id": "c9p1-b13",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #13",
+    "origin": "supported",
+    "concept": "An economist’s production costs reflect opportunity costs",
+    "prompt": "To an economist, a firm’s production costs:",
+    "kind": "mc",
+    "options": [
+      "reflect opportunity costs",
+      "include only explicit cash payments",
+      "exclude the implicit cost of owner-supplied resources",
+      "are the same thing as accounting profit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Economic production costs reflect opportunity costs (explicit plus implicit)."
+  },
+  {
+    "id": "c9p1-b14",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #14",
+    "origin": "supported",
+    "concept": "If worker contributions are 24, 18, and 9, MP of the third worker is 9",
+    "prompt": "If three workers’ contributions to output are 24, 18, and 9, the marginal product of the third worker is:",
+    "kind": "num",
+    "numeric": 9,
+    "tolerance": 0,
+    "explanation": "Each listed contribution is that worker’s added output. The third worker’s marginal product is 9."
+  },
+  {
+    "id": "c9p1-b08",
+    "section": "ch9p1",
+    "source": "Ch 9 Part 1 · Batch #8",
+    "origin": "substitute",
+    "concept": "Standard production curves are TP, MP, and AP (original diagram not supplied)",
+    "prompt": "Conceptual drill (original production-curves diagram not supplied): A standard short-run production diagram typically shows which three curves?",
+    "kind": "mc",
+    "options": [
+      "total product, marginal product, and average product",
+      "price, marginal revenue, and average fixed cost",
+      "industry supply, long-run supply, and market demand",
+      "implicit cost, accounting profit, and economic profit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The usual short-run production diagram shows TP, MP, and AP. The original batch diagram was not included, so this is a conceptual substitute, not a letter-ID of that figure."
+  },
+  {
+    "id": "c9p1-b01",
+    "source": "Ch 9 Part 1 · Batch #1",
+    "concept": "Reported MP of the 5th worker is 10",
+    "prompt": "Answer-key recall (original labor table not supplied): The logged answer for the marginal product of the 5th worker is:",
+    "kind": "num",
+    "numeric": 10,
+    "tolerance": 0,
+    "explanation": "The class log reports MP of the 5th worker as 10. The original 0–7 worker table was not included, so this figure cannot be derived from data in the app.",
+    "section": "ch9p1",
+    "origin": "recall"
+  },
+  {
+    "id": "c9p1-b02",
+    "source": "Ch 9 Part 1 · Batch #2",
+    "concept": "Reported AP is maximized with two workers",
+    "prompt": "Answer-key recall (original labor table not supplied): Average product is logged as being maximized with how many workers?",
+    "kind": "num",
+    "numeric": 2,
+    "tolerance": 0,
+    "explanation": "The class log reports that AP is maximized with two workers. The original table was not included, so this is a reported answer, not a calculation you can redo here.",
+    "section": "ch9p1",
+    "origin": "recall"
+  },
+  {
+    "id": "c9p1-b12",
+    "source": "Ch 9 Part 1 · Batch #12",
+    "concept": "Reported diminishing returns begin with the fourth worker",
+    "prompt": "Answer-key recall (original labor table not supplied): Diminishing returns are logged as beginning with the:",
+    "kind": "mc",
+    "options": [
+      "fourth worker",
+      "second worker",
+      "sixth worker",
+      "first worker"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The class log reports that diminishing returns begin with the fourth worker. The original table was not included, so this recalls a reported answer rather than a derived one.",
+    "section": "ch9p1",
+    "origin": "recall"
+  },
+  {
+    "id": "c9p1-b15",
+    "source": "Ch 9 Part 1 · Batch #15",
+    "concept": "Reported MP of the sixth worker is 15",
+    "prompt": "Answer-key recall (original labor table not supplied): The logged marginal product of the sixth worker is how many units of output?",
+    "kind": "num",
+    "numeric": 15,
+    "tolerance": 0,
+    "explanation": "The class log reports MP of the sixth worker as 15 units. The original table was not included, so this cannot be calculated from data in the app.",
+    "section": "ch9p1",
+    "origin": "recall"
+  },
+  {
+    "id": "c9p2-b01",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #1",
+    "origin": "supported",
+    "concept": "MP of labor is at its maximum at the minimum point of MC",
+    "prompt": "The marginal product of labor is at its maximum at:",
+    "kind": "mc",
+    "options": [
+      "the minimum point of the marginal-cost curve",
+      "the minimum point of the AFC curve",
+      "the maximum point of the ATC curve",
+      "the shutdown point on AVC only, by definition"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "MC and MP move inversely. MP is at its maximum where MC is at its minimum."
+  },
+  {
+    "id": "c9p2-b04",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #4",
+    "origin": "supported",
+    "concept": "TFC equals total cost at output zero",
+    "prompt": "If a cost table shows total cost of $10 at output 0, total fixed cost is:",
+    "kind": "num",
+    "numeric": 10,
+    "tolerance": 0,
+    "explanation": "At Q = 0 there is no variable cost, so TC = TFC. If TC is $10 at output 0, TFC is $10."
+  },
+  {
+    "id": "c9p2-b05",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #5",
+    "origin": "supported",
+    "concept": "Falling variable-input prices lower MC, AVC, and ATC",
+    "prompt": "A fall in variable-input prices causes:",
+    "kind": "mc",
+    "options": [
+      "marginal, average variable, and average total cost all to fall",
+      "only AFC to fall; MC and AVC stay put",
+      "ATC to rise and MC to fall",
+      "fixed cost and AFC to increase"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Cheaper variable inputs reduce TVC at each output, so MC, AVC, and ATC fall. AFC is unchanged because it depends on TFC."
+  },
+  {
+    "id": "c9p2-b07",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #7",
+    "origin": "supported",
+    "concept": "For most firms, ATC declines then rises",
+    "prompt": "For most firms, average total cost:",
+    "kind": "mc",
+    "options": [
+      "declines and then rises",
+      "rises continuously from the first unit",
+      "declines continuously, like AFC",
+      "is a horizontal line equal to TFC"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "ATC is typically U-shaped: it declines at first and then rises."
+  },
+  {
+    "id": "c9p2-b08",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #8",
+    "origin": "supported",
+    "concept": "Fixed costs are independent of the rate of output",
+    "prompt": "Fixed costs are:",
+    "kind": "mc",
+    "options": [
+      "independent of the rate of output",
+      "always zero in the short run",
+      "equal to TVC divided by output",
+      "paid only when the firm produces at least one unit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Fixed costs do not change with the rate of output (they are incurred even at Q = 0)."
+  },
+  {
+    "id": "c9p2-b09",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #9",
+    "origin": "supported",
+    "concept": "ATC = (TFC + TVC) / Q = (200+600)/4 = 200",
+    "prompt": "If TFC is $200, TVC is $600, and output is 4, ATC is:",
+    "kind": "num",
+    "numeric": 200,
+    "tolerance": 0,
+    "explanation": "ATC = (TFC + TVC) / Q = ($200 + $600) / 4 = $200."
+  },
+  {
+    "id": "c9p2-b14",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #14",
+    "origin": "supported",
+    "concept": "Property insurance premiums are a fixed cost",
+    "prompt": "Which of the following is most likely a fixed cost?",
+    "kind": "mc",
+    "options": [
+      "property insurance premiums",
+      "hourly wages of production workers",
+      "fuel used to run machines",
+      "materials that vary with each unit produced"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Property insurance premiums typically do not change with the current rate of output, so they are a fixed cost."
+  },
+  {
+    "id": "c9p2-b02c",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #2",
+    "origin": "supported",
+    "concept": "TFC can be recovered as AFC × Q",
+    "prompt": "If you know average fixed cost and output, total fixed cost equals:",
+    "kind": "mc",
+    "options": [
+      "AFC × Q",
+      "AFC / Q",
+      "ATC − MC",
+      "TVC × Q"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "AFC = TFC / Q, so TFC = AFC × Q. The original AFC table was not included; use this relationship rather than a guessed table."
+  },
+  {
+    "id": "c9p2-b03",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #3",
+    "origin": "substitute",
+    "concept": "TC can be read as the ATC × Q rectangle (not graph letters)",
+    "prompt": "Conceptual drill (original total-cost graph not supplied): At a given output, total cost can be measured as:",
+    "kind": "mc",
+    "options": [
+      "the rectangle with height equal to ATC and width equal to output (ATC × Q)",
+      "the horizontal distance from the origin to min AVC only",
+      "the area under the AFC curve between two prices",
+      "the vertical gap between price and MR"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "TC = ATC × Q, which is a rectangle of height ATC and width Q. The original graph letters (such as 0CDQ) were not supplied, so this drills the mechanism, not a letter guess."
+  },
+  {
+    "id": "c9p2-b10",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #10",
+    "origin": "substitute",
+    "concept": "MC intersects AVC at AVC’s minimum",
+    "prompt": "Conceptual drill (original cost-curve graph not supplied): The marginal-cost curve intersects the average-variable-cost curve:",
+    "kind": "mc",
+    "options": [
+      "at the minimum point of AVC",
+      "at the maximum point of AFC",
+      "where ATC equals TFC",
+      "only when MP is negative"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "MC cuts AVC at AVC’s minimum (and cuts ATC at ATC’s minimum). The original graph was not included, so this is a relationship drill, not a curve-letter identification."
+  },
+  {
+    "id": "c9p2-b13",
+    "section": "ch9p2",
+    "source": "Ch 9 Part 2 · Batch #13",
+    "origin": "substitute",
+    "concept": "Rising MC/AVC is caused by diminishing marginal returns",
+    "prompt": "Conceptual drill (original points b and c were not supplied): A movement onto the rising portion of a firm’s MC or AVC curve is caused by:",
+    "kind": "mc",
+    "options": [
+      "diminishing marginal returns",
+      "greater specialization",
+      "a fall in fixed costs only",
+      "perfectly elastic market demand"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Diminishing marginal returns drive the rising portions of MC and AVC. The original graph points were not included, so this is a conceptual substitute, not a b-to-c letter ID."
+  },
+  {
+    "id": "c9p2-b02r",
+    "source": "Ch 9 Part 2 · Batch #2",
+    "concept": "Reported TFC from the AFC table is $50",
+    "prompt": "Answer-key recall (original AFC table not supplied): The logged total fixed cost from that table is:",
+    "kind": "num",
+    "numeric": 50,
+    "tolerance": 0,
+    "explanation": "The class log reports TFC of $50 from an AFC table. That table was not included, so this recalls a reported answer; you cannot recompute it here except by the general rule TFC = AFC × Q.",
+    "section": "ch9p2",
+    "origin": "recall"
+  },
+  {
+    "id": "c9p2-b11",
+    "source": "Ch 9 Part 2 · Batch #11",
+    "concept": "Reported TC of 4 units is $124",
+    "prompt": "Answer-key recall (original ATC table not supplied): The logged total cost of 4 units is:",
+    "kind": "num",
+    "numeric": 124,
+    "tolerance": 0,
+    "explanation": "The class log reports TC of 4 units as $124. The original ATC table was not included, so this is a reported answer, not a calculation from included data.",
+    "section": "ch9p2",
+    "origin": "recall"
+  },
+  {
+    "id": "c9p2-b12",
+    "source": "Ch 9 Part 2 · Batch #12",
+    "concept": "Reported AFC of 3 units is $13.33",
+    "prompt": "Answer-key recall (original cost table not supplied): The logged average fixed cost of 3 units is:",
+    "kind": "num",
+    "numeric": 13.33,
+    "tolerance": 0.02,
+    "explanation": "The class log reports AFC of 3 units as $13.33. The original table was not included, so this cannot be derived from data in the app.",
+    "section": "ch9p2",
+    "origin": "recall"
+  },
+  {
+    "id": "c9p2-b15",
+    "source": "Ch 9 Part 2 · Batch #15",
+    "concept": "Reported MC of the third unit is $15",
+    "prompt": "Answer-key recall (original cost table not supplied): The logged marginal cost of the third unit is:",
+    "kind": "num",
+    "numeric": 15,
+    "tolerance": 0,
+    "explanation": "The class log reports MC of the third unit as $15. The original table was not included, so this is a reported answer, not a derived one.",
+    "section": "ch9p2",
+    "origin": "recall"
+  },
+  {
+    "id": "c10p1-b01",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #1",
+    "origin": "supported",
+    "concept": "If P > min ATC, entry occurs and industry supply increases",
+    "prompt": "If price is above minimum ATC in a purely competitive industry, then in the long run:",
+    "kind": "mc",
+    "options": [
+      "other firms will enter and industry supply will increase",
+      "firms will exit and industry supply will decrease",
+      "every firm immediately shuts down in the short run",
+      "market demand must become perfectly inelastic"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "P > min ATC means economic profit. Those profits attract entry, which increases industry supply and puts downward pressure on price."
+  },
+  {
+    "id": "c10p1-b02",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #2",
+    "origin": "supported",
+    "concept": "If AVC > price at the MR = MC output, shut down in the short run",
+    "prompt": "If, at the output where MR = MC, AVC is greater than price, a competitive firm should:",
+    "kind": "mc",
+    "options": [
+      "shut down in the short run",
+      "expand output until P equals ATC",
+      "continue operating because MR = MC always covers fixed costs",
+      "enter the industry immediately"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "If price is below AVC at the MR = MC output, the firm cannot cover variable costs and should shut down in the short run."
+  },
+  {
+    "id": "c10p1-b03",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #3",
+    "origin": "supported",
+    "concept": "P = $3.00 < AVC = $3.50 → shut down",
+    "prompt": "If price is $3.00 and AVC is $3.50, a purely competitive firm should:",
+    "kind": "mc",
+    "options": [
+      "shut down",
+      "produce the MR = MC output because price covers all fixed costs",
+      "produce more until AVC falls to $3.00",
+      "earn a normal profit"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "P = $3.00 is below AVC = $3.50, so the firm should shut down. Operating would not cover variable costs."
+  },
+  {
+    "id": "c10p1-b05",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #5",
+    "origin": "supported",
+    "concept": "Selling off fleets is a long-run (plant/capital) adjustment",
+    "prompt": "Rental-car companies selling off part of their fleets during COVID-19 is best classified as:",
+    "kind": "mc",
+    "options": [
+      "a long-run adjustment of capital / plant capacity",
+      "a short-run change in a fixed plant that cannot be altered",
+      "an increase in short-run fixed cost only",
+      "a purely demand-side shift with no change in capacity"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Reducing the fleet changes the firm’s capital stock (plant capacity), which is a long-run adjustment, not a short-run movement along a fixed plant."
+  },
+  {
+    "id": "c10p1-b06",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #6",
+    "origin": "supported",
+    "concept": "For a competitive corn seller, MR equals the market price",
+    "prompt": "A purely competitive corn seller faces a market price of $6. Marginal revenue is:",
+    "kind": "num",
+    "numeric": 6,
+    "tolerance": 0,
+    "explanation": "In pure competition, MR = P. If the market price is $6, MR is $6."
+  },
+  {
+    "id": "c10p1-b07",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #7",
+    "origin": "supported",
+    "concept": "Maximizing economic profit may or may not maximize per-unit profit",
+    "prompt": "When a firm is maximizing economic (total) profit:",
+    "kind": "mc",
+    "options": [
+      "it may or may not be maximizing profit per unit",
+      "it must also be maximizing profit per unit",
+      "it must be producing where P is farthest above ATC",
+      "it cannot be producing where MR = MC"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Total profit is what the firm maximizes (MR = MC, subject to the operate/shutdown test). That output need not be the one with the largest profit per unit."
+  },
+  {
+    "id": "c10p1-b08",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #8",
+    "origin": "supported",
+    "concept": "Perfectly elastic demand: can sell as much as it chooses at the going price",
+    "prompt": "A perfectly elastic demand curve means the competitive firm:",
+    "kind": "mc",
+    "options": [
+      "can sell as much output as it chooses at the existing market price",
+      "must lower price to sell each extra unit",
+      "can raise price without losing any sales",
+      "faces the entire downward-sloping market demand curve"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "With perfectly elastic demand at the market price, the firm can sell any output it wishes at that price, but nothing at a higher price."
+  },
+  {
+    "id": "c10p1-b09",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #9",
+    "origin": "supported",
+    "concept": "A standardized-product competitive firm generally does not brand-advertise",
+    "prompt": "A purely competitive producer selling a standardized (homogeneous) product generally:",
+    "kind": "mc",
+    "options": [
+      "will not advertise its individual product / brand",
+      "must advertise heavily to differentiate its output",
+      "sets a brand premium above the market price",
+      "faces a downward-sloping demand curve because of advertising"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "With a standardized product, buyers treat rivals’ output as identical, so an individual competitive firm generally has no need for brand advertising. This is the usual competitive-firm result, not a claim about every real-world market."
+  },
+  {
+    "id": "c10p1-b10",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #10",
+    "origin": "supported",
+    "concept": "Mutual interdependence characterizes oligopoly",
+    "prompt": "Mutual interdependence among firms is a distinguishing feature of:",
+    "kind": "mc",
+    "options": [
+      "oligopoly",
+      "pure competition",
+      "pure monopoly",
+      "a constant-cost competitive industry only"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Mutual interdependence — each firm’s decisions depend on rivals’ reactions — is the hallmark of oligopoly."
+  },
+  {
+    "id": "c10p1-b12",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #12",
+    "origin": "supported",
+    "concept": "Course example: a Wendy’s location classified as oligopoly (not universal)",
+    "prompt": "In the course example, a Wendy’s restaurant location is classified as:",
+    "kind": "mc",
+    "options": [
+      "oligopoly",
+      "pure competition",
+      "pure monopoly",
+      "a natural monopoly because LRATC is always declining"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The class log classifies that Wendy’s location example as oligopoly (a local-market, few-firm setting with interdependence). That is the course’s classification of this example, not a universal rule for all restaurants."
+  },
+  {
+    "id": "c10p1-b13",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #13",
+    "origin": "supported",
+    "concept": "The competitive firm’s short-run supply curve is MC above AVC",
+    "prompt": "A purely competitive firm’s short-run supply curve is its:",
+    "kind": "mc",
+    "options": [
+      "marginal-cost curve lying above the average-variable-cost curve",
+      "entire MC curve, including the segment below AVC",
+      "average-fixed-cost curve",
+      "demand (MR = AR = P) curve"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Short-run supply is the MC curve above minimum AVC (the shutdown point). Below that, the firm supplies zero."
+  },
+  {
+    "id": "c10p1-b11",
+    "section": "ch10p1",
+    "source": "Ch 10 Part 1 · Batch #11",
+    "origin": "recall",
+    "concept": "Reported: produce 5 units and earn $15 economic profit at P = $45",
+    "prompt": "Answer-key recall (original cost table not supplied): At a price of $45, the logged profit-max result is to produce 5 units and realize an economic profit of:",
+    "kind": "num",
+    "numeric": 15,
+    "tolerance": 0,
+    "explanation": "The class log reports: produce 5 units and realize a $15 economic profit at P = $45. The original cost table was not included, so you cannot recompute this from data in the app."
+  },
+  {
+    "id": "c10p2-b01",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · Batch #1",
+    "origin": "supported",
+    "concept": "An upward-sloping long-run supply curve is an increasing-cost industry",
+    "prompt": "An upward-sloping long-run industry supply curve indicates:",
+    "kind": "mc",
+    "options": [
+      "an increasing-cost industry",
+      "a constant-cost industry",
+      "a decreasing-cost industry",
+      "a firm that should shut down in the short run"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In an increasing-cost industry, expansion bids up input prices, so the long-run supply curve slopes upward."
+  },
+  {
+    "id": "c10p2-s01",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · Supplemental",
+    "origin": "supplemental",
+    "concept": "A constant-cost industry has a horizontal long-run supply curve",
+    "prompt": "Supplemental drill (not an exact original from the missing Ch 10 Part 2 batch #2–15): A constant-cost industry’s long-run supply curve is:",
+    "kind": "mc",
+    "options": [
+      "horizontal (perfectly elastic)",
+      "upward-sloping",
+      "downward-sloping",
+      "the same as a monopolist’s MR curve"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In a constant-cost industry, expansion does not change input prices, so long-run supply is horizontal. This is a labeled supplemental concept drill, not a reconstruction of a missing original prompt."
+  },
+  {
+    "id": "c10p2-s02",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · Supplemental",
+    "origin": "supplemental",
+    "concept": "A decreasing-cost industry has a downward-sloping long-run supply curve",
+    "prompt": "Supplemental drill (not an exact original from the missing Ch 10 Part 2 batch #2–15): A decreasing-cost industry’s long-run supply curve is:",
+    "kind": "mc",
+    "options": [
+      "downward-sloping",
+      "upward-sloping",
+      "vertical at min AFC",
+      "identical to short-run market supply in every case"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In a decreasing-cost industry, expansion lowers costs, so long-run supply slopes downward. This is supplemental, not an original Betty’s Beads or LCD-TV wording."
+  },
+  {
+    "id": "c10p2-s03",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · Supplemental",
+    "origin": "supplemental",
+    "concept": "In a constant-cost industry, expansion leaves ATC unchanged",
+    "prompt": "Supplemental drill (not an exact original from the missing Ch 10 Part 2 batch #2–15): If a constant-cost industry expands, a typical firm’s ATC curve:",
+    "kind": "mc",
+    "options": [
+      "does not shift because input prices are unchanged",
+      "shifts up as input prices are bid up",
+      "shifts down as input prices fall",
+      "becomes the firm’s demand curve"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Constant-cost means industry output can rise without changing input prices, so firms’ ATC curves do not shift. Supplemental concept drill only."
+  },
+  {
+    "id": "c10p2-s04",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · Supplemental",
+    "origin": "supplemental",
+    "concept": "In a decreasing-cost industry, ATC shifts down as the industry expands",
+    "prompt": "Supplemental drill (not an exact original from the missing Ch 10 Part 2 batch #2–15): In a decreasing-cost industry, as the industry expands:",
+    "kind": "mc",
+    "options": [
+      "firms’ ATC curves shift down",
+      "firms’ ATC curves shift up",
+      "long-run supply becomes upward-sloping",
+      "economic profits are protected by legal barriers"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Decreasing costs mean expansion lowers input or production costs, shifting ATC down. This is not a reconstruction of a missing LCD-TV numerical example."
+  },
+  {
+    "id": "c10p2-s05",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · Supplemental",
+    "origin": "supplemental",
+    "concept": "In an increasing-cost industry, expansion bids up input prices",
+    "prompt": "Supplemental drill (not an exact original from the missing Ch 10 Part 2 batch #2–15): In an increasing-cost industry, industry expansion typically:",
+    "kind": "mc",
+    "options": [
+      "bids up input prices and raises firms’ costs",
+      "leaves input prices and ATC unchanged",
+      "forces every firm to shut down immediately",
+      "makes long-run supply horizontal"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Increasing-cost: more industry output bids up input prices, raising costs. Related to, but distinct from, the original select-all on ATC shifts when the industry expands or contracts."
+  },
+  {
+    "id": "c10p2-s06",
+    "section": "ch10p2",
+    "source": "Ch 10 Part 2 · Supplemental",
+    "origin": "supplemental",
+    "concept": "After entry or exit, long-run price equals min ATC in competition",
+    "prompt": "Supplemental drill (not an exact original from the missing Ch 10 Part 2 batch #2–15): After entry or exit has eliminated economic profits and losses, the long-run competitive price equals:",
+    "kind": "mc",
+    "options": [
+      "minimum ATC",
+      "minimum AFC",
+      "a permanent positive economic-profit markup",
+      "MR at a negative value"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Long-run competitive equilibrium has P = min ATC (and P = MC), with zero economic profit. Supplemental concept drill only."
+  },
+  {
+    "id": "c11-b01",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #1",
+    "origin": "supported",
+    "concept": "A pure monopolist’s demand curve is the market demand curve",
+    "prompt": "A pure monopolist’s demand curve is:",
+    "kind": "mc",
+    "options": [
+      "the same as the market demand curve",
+      "perfectly elastic at the market price",
+      "the same as the competitive firm’s MR = AR line",
+      "horizontal at min ATC"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The pure monopolist is the only seller, so its demand curve is the market demand curve."
+  },
+  {
+    "id": "c11-b02",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #2",
+    "origin": "supported",
+    "concept": "A nondiscriminating monopolist does not produce in the inelastic range",
+    "prompt": "A single-price (nondiscriminating) monopolist will never produce in the output range where demand is:",
+    "kind": "mc",
+    "options": [
+      "inelastic",
+      "elastic",
+      "perfectly elastic",
+      "unit-elastic at a single point, by definition"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "In the inelastic range of demand, MR is negative, so producing there would reduce total revenue (and profit). The firm produces in the elastic range. “Maximum profit” is not the same as producing where demand is inelastic."
+  },
+  {
+    "id": "c11-b03",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #3",
+    "origin": "substitute",
+    "concept": "A price cut loses revenue on prior units and gains revenue on extra units",
+    "prompt": "Conceptual drill (original P1/P2 graph letters not supplied): When a single-price monopolist cuts price to sell more output, the revenue effect is:",
+    "kind": "mc",
+    "options": [
+      "a loss of revenue on units already being sold, and a gain of revenue from additional units sold",
+      "a gain only, because MR always equals price",
+      "a loss only, because demand is always inelastic",
+      "no change in TR, because price and quantity move in opposite directions by equal amounts"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "To sell more, the single-price monopolist must lower the price on all units: it loses revenue on output it would have sold anyway and gains revenue from the extra units. This is the mechanism behind those textbook rectangles — not a guess of missing graph letters such as P1P2be or Q1bcQ2."
+  },
+  {
+    "id": "c11-b05",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #5",
+    "origin": "supported",
+    "concept": "Seattle NFL team approximates monopoly only in the specified local NFL-team market",
+    "prompt": "The course treats the NFL team in Seattle as approximating a pure monopoly only in:",
+    "kind": "mc",
+    "options": [
+      "the specified local market for a top-level NFL team",
+      "all professional sports and entertainment nationwide",
+      "every local restaurant and retail market",
+      "the market for all leisure activities in the United States"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "That example is scoped to the local market for a top-level NFL team. It is not a claim that the team is a monopoly in all sports or all entertainment."
+  },
+  {
+    "id": "c11-b06",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #6",
+    "origin": "supported",
+    "concept": "It is incorrect that imperfect competitors do not compete",
+    "prompt": "Which statement about imperfectly competitive firms is incorrect?",
+    "kind": "mc",
+    "options": [
+      "They do not compete with one another",
+      "They may have some control over price",
+      "They include monopolistic competitors, oligopolists, and monopolists",
+      "They do not face the perfectly elastic demand of a pure competitor"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Imperfect competitors do compete with one another (for sales, quality, advertising, and so on). The claim that they do not compete is incorrect."
+  },
+  {
+    "id": "c11-b07",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #7",
+    "origin": "supported",
+    "concept": "Antitrust law is not a barrier to entry; a higher price alone isn’t either",
+    "prompt": "Which of the following is not a barrier to entry?",
+    "kind": "mc",
+    "options": [
+      "antitrust law",
+      "patents and licenses",
+      "economies of scale (including natural monopoly)",
+      "ownership of an essential resource"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Antitrust law is designed to limit monopoly power, not to block entry. A rising price by itself is also not an entry barrier — profits can attract entry unless some other barrier is present."
+  },
+  {
+    "id": "c11-b08",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #8",
+    "origin": "supported",
+    "concept": "If the 100th unit sells at $35, MR is less than $35 for a single-price monopolist",
+    "prompt": "A single-price monopolist can sell the 100th unit at a price of $35. Marginal revenue for that unit will be:",
+    "kind": "mc",
+    "options": [
+      "less than $35",
+      "exactly $35",
+      "greater than $35",
+      "equal to ATC at 100 units, by definition"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "With downward-sloping demand, a single-price monopolist must lower price on all units to sell another unit, so MR < P. If the 100th unit’s price is $35, MR is less than $35."
+  },
+  {
+    "id": "c11-b11",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #11",
+    "origin": "supported",
+    "concept": "Raising prices to secure profits is not how monopoly power is preserved",
+    "prompt": "Which of the following is not a way of preserving monopoly power?",
+    "kind": "mc",
+    "options": [
+      "raising its prices to secure monopoly profits",
+      "barriers that keep out new entrants",
+      "patents, licenses, or control of an essential resource",
+      "economies of scale that deter additional firms"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Monopoly power is preserved by barriers to entry, not by simply raising price. A higher price, by itself, tends to attract entry if barriers are weak."
+  },
+  {
+    "id": "c11-b12",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #12",
+    "origin": "supported",
+    "concept": "For a nondiscriminating monopolist, a price cut applies to all units",
+    "prompt": "For a nondiscriminating (single-price) monopolist, marginal revenue is below price because:",
+    "kind": "mc",
+    "options": [
+      "the price reduction needed to sell another unit applies to all units sold",
+      "the firm is a price taker and MR equals price",
+      "demand is perfectly elastic at the market price",
+      "MR is read from the ATC curve, not from demand"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "A single-price monopolist must cut the price on all units to sell one more, so MR < P. (A perfect price discriminator would not have to do that.)"
+  },
+  {
+    "id": "c11-b13",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #13",
+    "origin": "supported",
+    "concept": "Competitive firms are price takers; monopolists are price makers",
+    "prompt": "In standard models:",
+    "kind": "mc",
+    "options": [
+      "purely competitive firms are price takers, and monopolists are price makers",
+      "both competitive firms and monopolists are price takers",
+      "both competitive firms and monopolists are price makers",
+      "monopolists take the market price, and competitors set any price they wish"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "A competitive firm takes the market price as given. A monopolist faces market demand and chooses a price-output pair (a price maker)."
+  },
+  {
+    "id": "c11-b14",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #14",
+    "origin": "supported",
+    "concept": "A purely monopolistic firm faces a downward-sloping demand curve",
+    "prompt": "A purely monopolistic firm:",
+    "kind": "mc",
+    "options": [
+      "faces a downward-sloping demand curve",
+      "faces a perfectly elastic demand curve at the market price",
+      "can sell any quantity without changing price",
+      "has MR equal to price at every output"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The monopolist faces downward-sloping market demand, so it must lower price to sell more, and MR < P for a single-price seller."
+  },
+  {
+    "id": "c11-b15",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #15",
+    "origin": "substitute",
+    "concept": "With zero costs, maximize TR where MR = 0, then read price from demand",
+    "prompt": "Conceptual drill (original Q2/P2 diagram not supplied): If a monopolist’s costs are zero, it maximizes profit by:",
+    "kind": "mc",
+    "options": [
+      "producing the output where MR = 0 (total revenue is maximized) and charging the price from the demand curve at that output",
+      "producing where P = MC and reading price from the MR curve",
+      "producing as much as possible because costs are zero, regardless of MR",
+      "charging the highest possible price on the vertical intercept and selling nothing"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "With zero costs, maximizing profit is the same as maximizing TR, which occurs where MR = 0. The price is then read from the demand curve at that quantity, not from MR, and not from invented graph labels Q2 and P2."
+  },
+  {
+    "id": "c11-b09",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #9",
+    "origin": "recall",
+    "concept": "Reported MR at Q = 6 is −$1",
+    "prompt": "Answer-key recall (original MR diagram not supplied): The logged marginal revenue at Q = 6 is:",
+    "kind": "num",
+    "numeric": -1,
+    "tolerance": 0,
+    "explanation": "The class log reports MR at Q = 6 as −$1. The original diagram was not included, so this recalls a reported answer; it cannot be computed from data in the app."
+  },
+  {
+    "id": "c11-b10",
+    "section": "ch11",
+    "source": "Ch 11 · Batch #10",
+    "origin": "recall",
+    "concept": "Reported Nike shoe monopoly MR is $195",
+    "prompt": "Answer-key recall (original Nike problem data not supplied): The logged monopoly marginal revenue in the Nike shoe example is:",
+    "kind": "num",
+    "numeric": 195,
+    "tolerance": 0,
+    "explanation": "The class log reports Nike shoe monopoly MR as $195. The original prices and quantities were not included, so this is a reported answer, not a calculation from included data."
+  }
+];
+
+  const GAPS = [
+  {
+    "section": "ch9p1",
+    "item": "Batch #8",
+    "note": "Production-curves diagram not supplied. A conceptual substitute on TP, MP, and AP was added; the exact lettered figure is a source gap."
+  },
+  {
+    "section": "ch9p1",
+    "item": "Batch #1, #2, #12, #15",
+    "note": "Original 0–7 worker labor table not supplied. Answer-key recall items use the logged figures (MP 5th = 10, AP max at 2 workers, diminishing returns at 4th worker, MP 6th = 15) and are labeled as not derivable here."
+  },
+  {
+    "section": "ch9p2",
+    "item": "Batch #2",
+    "note": "AFC table not supplied. Added the general rule TFC = AFC × Q, plus a labeled recall that the logged TFC was $50."
+  },
+  {
+    "section": "ch9p2",
+    "item": "Batch #3",
+    "note": "Total-cost graph letters (e.g. rectangle 0CDQ) not supplied. A mechanism substitute (TC = ATC × Q rectangle) was added instead of letter guessing."
+  },
+  {
+    "section": "ch9p2",
+    "item": "Batch #10",
+    "note": "MC/AVC curve-identification graph not supplied. A substitute on MC intersecting AVC at min AVC was added."
+  },
+  {
+    "section": "ch9p2",
+    "item": "Batch #11, #12, #15",
+    "note": "Cost/ATC table not supplied. Labeled recalls only: TC of 4 units = $124, AFC of 3 units = $13.33, MC of the 3rd unit = $15."
+  },
+  {
+    "section": "ch9p2",
+    "item": "Batch #13",
+    "note": "Graph points b and c not supplied. A substitute on diminishing returns causing rising MC/AVC was added."
+  },
+  {
+    "section": "ch10p1",
+    "item": "Batch #11",
+    "note": "Cost table at P = $45 not supplied. Labeled recall only: produce 5 units and $15 economic profit."
+  },
+  {
+    "section": "ch10p1",
+    "item": "Batch #15",
+    "note": "Source gap: the log says a platform-selected answer was noted but includes no actual answer. No question was added."
+  },
+  {
+    "section": "ch10p2",
+    "item": "Batch #2–#15",
+    "note": "Source gap: the log gives only a summary placeholder, not the exact 14 prompts (including Betty’s Beads and LCD TV examples). Those exact originals were not reconstructed. Labeled supplemental drills cover constant-, increasing-, and decreasing-cost long-run supply and expansion/contraction, without invented amounts or dates."
+  },
+  {
+    "section": "ch11",
+    "item": "Batch #3",
+    "note": "Price-cut graph letters (P1P2be, Q1bcQ2) not supplied. A mechanism substitute (revenue lost on prior units, gained on extra units) was added."
+  },
+  {
+    "section": "ch11",
+    "item": "Batch #9, #10",
+    "note": "MR diagram and Nike problem data not supplied. Labeled recalls only: MR at Q = 6 is −$1; Nike MR = $195."
+  },
+  {
+    "section": "ch11",
+    "item": "Batch #15",
+    "note": "Zero-cost Q2/P2 diagram not supplied. A substitute was added: with zero costs, maximize TR where MR = 0, then read price from demand — no invented Q2/P2."
+  }
+];
+  const DEDUPED = [
+  {
+    "section": "ch9p1",
+    "item": "Batch #5",
+    "note": "Accounting profit = TR − explicit costs — already in the original 58 (c9p1-05)."
+  },
+  {
+    "section": "ch9p1",
+    "item": "Batch #11",
+    "note": "Short-run fixed plant capacity — already in the original 58 (c9p1-08)."
+  },
+  {
+    "section": "ch9p2",
+    "item": "Batch #6",
+    "note": "AFC declines as output increases — already in the original 58 (c9p2-05)."
+  },
+  {
+    "section": "ch10p1",
+    "item": "Batch #4",
+    "note": "Price taker — already in the original 58 (c10p1-04 / c10p1-06)."
+  },
+  {
+    "section": "ch10p1",
+    "item": "Batch #14",
+    "note": "Standardized / homogeneous products — already in the original 58 (c10p1-05)."
+  },
+  {
+    "section": "ch11",
+    "item": "Batch #4",
+    "note": "Natural monopoly: demand intersects declining LRATC — already in the original 58 (c11-14)."
+  }
+];
+  const STORAGE_KEY = "ellisdee.econ-cram.ch9-11.v1";
+  const VERSION = 1;
+  const MISS_DELAY = 3;
+  const SECTIONS = ["ch9p1", "ch9p2", "ch10p1", "ch10p2", "ch11"];
+  const SECTION_LABEL = {
+    ch9p1: "Ch 9 Part 1",
+    ch9p2: "Ch 9 Part 2",
+    ch10p1: "Ch 10 Part 1",
+    ch10p2: "Ch 10 Part 2",
+    ch11: "Ch 11"
+  };
+  const BY_ID = Object.create(null);
+  for (const q of QUESTIONS) BY_ID[q.id] = q;
+
+  function hashSeed(s) {
+    let h = 2166136261;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+  function rngNext(state) {
+    let a = (state.n + 0x6d2b79f5) >>> 0;
+    state.n = a;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+  function shuffleCopy(arr, seed) {
+    const out = arr.slice();
+    const st = { n: hashSeed(String(seed)) };
+    for (let i = out.length - 1; i > 0; i--) {
+      const j = Math.floor(rngNext(st) * (i + 1));
+      const tmp = out[i];
+      out[i] = out[j];
+      out[j] = tmp;
+    }
+    return out;
+  }
+  function emptyStat() {
+    return { attempts: 0, correct: 0, streak: 0, missed: false, seen: false };
+  }
+  function emptyStats() {
+    const s = {};
+    for (const q of QUESTIONS) s[q.id] = emptyStat();
+    return s;
+  }
+  function sameSet(a, b) {
+    if (!a || !b || a.length !== b.length) return false;
+    const as = a.slice().sort((x, y) => x - y);
+    const bs = b.slice().sort((x, y) => x - y);
+    return as.every((v, i) => v === bs[i]);
+  }
+  function parseNum(s) {
+    if (s == null) return null;
+    const t = String(s).trim().replace(/[$,]/g, "");
+    if (t === "" || t === "-" || t === "." || t === "-.") return null;
+    const n = Number(t);
+    return Number.isFinite(n) ? n : null;
+  }
+  function answerText(q) {
+    if (!q) return "";
+    if (q.kind === "num") return String(q.numeric);
+    const opts = q.options || [];
+    return (q.correct || []).map((i) => opts[i] || "").join("; ");
+  }
+  function poolFor(filter, mode, stats) {
+    let pool = QUESTIONS.filter((q) => filter === "mixed" || q.section === filter);
+    if (mode === "missed") pool = pool.filter((q) => stats[q.id] && stats[q.id].missed);
+    return pool;
+  }
+  function buildFirstPass(filter, seed) {
+    if (filter !== "mixed") {
+      return shuffleCopy(
+        QUESTIONS.filter((q) => q.section === filter).map((q) => q.id),
+        seed + filter
+      );
+    }
+    const lists = SECTIONS.map((sec) =>
+      shuffleCopy(
+        QUESTIONS.filter((q) => q.section === sec).map((q) => q.id),
+        seed + sec
+      )
+    );
+    const out = [];
+    const max = Math.max(0, ...lists.map((l) => l.length));
+    for (let i = 0; i < max; i++) {
+      for (const list of lists) if (list[i]) out.push(list[i]);
+    }
+    return out;
+  }
+  function sectionAccuracy(stats, sec) {
+    let att = 0, cor = 0;
+    for (const q of QUESTIONS) {
+      if (q.section !== sec) continue;
+      const st = stats[q.id];
+      if (!st) continue;
+      att += st.attempts;
+      cor += st.correct;
+    }
+    return att > 0 ? cor / att : 2;
+  }
+  function buildReview(filter, mode, stats, seed) {
+    const pool = poolFor(filter, mode, stats);
+    if (!pool.length) return [];
+    const unmastered = pool.filter((q) => ((stats[q.id] && stats[q.id].streak) || 0) < 2);
+    const target = unmastered.length ? unmastered : pool;
+    const grouped = { ch9p1: [], ch9p2: [], ch10p1: [], ch10p2: [], ch11: [] };
+    for (const q of target) grouped[q.section].push(q.id);
+    const order = SECTIONS.slice().sort((a, b) => sectionAccuracy(stats, a) - sectionAccuracy(stats, b) || a.localeCompare(b));
+    const lists = order.map((sec) => {
+      const ids = grouped[sec].slice().sort((a, b) => {
+        const sa = stats[a] || emptyStat();
+        const sb = stats[b] || emptyStat();
+        const missA = sa.missed && sa.streak < 2 ? 1 : 0;
+        const missB = sb.missed && sb.streak < 2 ? 1 : 0;
+        if (missB !== missA) return missB - missA;
+        return sa.streak - sb.streak;
+      });
+      return shuffleCopy(ids, seed + "rev" + sec);
+    });
+    const out = [];
+    const max = Math.max(0, ...lists.map((l) => l.length));
+    for (let i = 0; i < max; i++) {
+      for (const list of lists) if (list[i]) out.push(list[i]);
+    }
+    return out;
+  }
+  function makeDeal(id, nonce) {
+    const q = BY_ID[id];
+    const n = q && q.options ? q.options.length : 0;
+    const idxs = [];
+    for (let i = 0; i < n; i++) idxs.push(i);
+    return { id, order: n ? shuffleCopy(idxs, id + "#" + String(nonce)) : [], nonce };
+  }
+  function startSession(filter, mode, stats, nonce) {
+    const first = mode === "missed"
+      ? buildReview(filter, mode, stats, "miss" + String(nonce))
+      : buildFirstPass(filter, "fp" + String(nonce));
+    const queue = first.slice();
+    const firstId = queue.shift();
+    return { queue, deal: firstId ? makeDeal(firstId, nonce) : null };
+  }
+  function insertAfter(queue, id, delay) {
+    const rest = queue.filter((x) => x !== id);
+    const i = Math.min(Math.max(delay, 0), rest.length);
+    return rest.slice(0, i).concat([id], rest.slice(i));
+  }
+  function gradeQuestion(q, deal, selected, numInput) {
+    if (!q) return { ok: false, blank: true };
+    if (q.kind === "num") {
+      const n = parseNum(numInput);
+      if (n === null) return { ok: false, blank: true };
+      return { ok: Math.abs(n - q.numeric) <= (q.tolerance || 0), blank: false };
+    }
+    if (!selected || !selected.length) return { ok: false, blank: true };
+    if (q.kind === "mc" && selected.length !== 1) return { ok: false, blank: true };
+    const originals = selected.map((d) => deal && deal.order ? deal.order[d] : undefined).filter((v) => v !== undefined);
+    return { ok: sameSet(originals, q.correct || []), blank: false };
+  }
+  function applyGrade(state, ok) {
+    if (!state.deal || state.submitted) return state;
+    const id = state.deal.id;
+    const cur = Object.assign(emptyStat(), state.stats[id] || {});
+    const stats = Object.assign({}, state.stats);
+    stats[id] = {
+      attempts: cur.attempts + 1,
+      correct: cur.correct + (ok ? 1 : 0),
+      streak: ok ? cur.streak + 1 : 0,
+      missed: cur.missed || !ok,
+      seen: true
+    };
+    return Object.assign({}, state, {
+      stats,
+      submitted: true,
+      wasCorrect: ok,
+      sessionTried: state.sessionTried + 1,
+      sessionRight: state.sessionRight + (ok ? 1 : 0)
+    });
+  }
+  function advance(state) {
+    if (!state.deal || !state.submitted) return state;
+    const id = state.deal.id;
+    const ok = state.wasCorrect === true;
+    const nextNonce = state.nonce + 1;
+    let nextQueue = state.queue.slice();
+    if (!ok) nextQueue = insertAfter(nextQueue, id, MISS_DELAY);
+    let firstPassDone = state.firstPassDone;
+    let keepDrilling = state.keepDrilling;
+    if (!nextQueue.length) {
+      const pool = poolFor(state.filter, state.mode, state.stats);
+      if (pool.every((q) => state.stats[q.id] && state.stats[q.id].seen)) firstPassDone = true;
+      nextQueue = buildReview(state.filter, state.mode, state.stats, "rev" + String(nextNonce));
+      if (nextQueue[0] === id && nextQueue.length > 1) {
+        nextQueue.push(nextQueue.shift());
+      }
+      const stillUnmastered = pool.some((q) => ((state.stats[q.id] && state.stats[q.id].streak) || 0) < 2);
+      if (!stillUnmastered && pool.length) keepDrilling = true;
+    }
+    const nextId = nextQueue.shift();
+    return Object.assign({}, state, {
+      nonce: nextNonce,
+      queue: nextQueue,
+      deal: nextId ? makeDeal(nextId, nextNonce) : null,
+      firstPassDone,
+      keepDrilling,
+      selected: [],
+      numInput: "",
+      submitted: false,
+      wasCorrect: null
+    });
+  }
+  function switchFilter(state, nextFilter, nextMode) {
+    const nextNonce = state.nonce + 1;
+    const started = startSession(nextFilter, nextMode, state.stats, nextNonce);
+    return Object.assign({}, state, {
+      filter: nextFilter,
+      mode: nextMode,
+      nonce: nextNonce,
+      queue: started.queue,
+      deal: started.deal,
+      keepDrilling: false,
+      firstPassDone: nextMode === "missed" ? true : false,
+      selected: [],
+      numInput: "",
+      submitted: false,
+      wasCorrect: null
+    });
+  }
+  function freshState() {
+    const stats = emptyStats();
+    const started = startSession("mixed", "drill", stats, 1);
+    return {
+      v: VERSION,
+      filter: "mixed",
+      mode: "drill",
+      stats,
+      queue: started.queue,
+      deal: started.deal,
+      nonce: 1,
+      sessionTried: 0,
+      sessionRight: 0,
+      firstPassDone: false,
+      keepDrilling: false,
+      selected: [],
+      numInput: "",
+      submitted: false,
+      wasCorrect: null
+    };
+  }
+  function validOrder(order, n) {
+    if (!Array.isArray(order) || order.length !== n) return false;
+    const seen = Object.create(null);
+    for (const x of order) {
+      if (!Number.isInteger(x) || x < 0 || x >= n || seen[x]) return false;
+      seen[x] = 1;
+    }
+    return true;
+  }
+  function normalizeStats(raw) {
+    const stats = emptyStats();
+    if (!raw || typeof raw !== "object") return stats;
+    for (const id of Object.keys(stats)) {
+      const s = raw[id];
+      if (!s || typeof s !== "object") continue;
+      const attempts = Number(s.attempts) || 0;
+      const correct = Number(s.correct) || 0;
+      const streak = Number(s.streak) || 0;
+      stats[id] = {
+        attempts: Math.max(0, attempts),
+        correct: Math.max(0, Math.min(correct, Math.max(0, attempts))),
+        streak: Math.max(0, streak),
+        missed: !!s.missed,
+        seen: !!s.seen || attempts > 0
+      };
+    }
+    return stats;
+  }
+  function validateState(raw) {
+    if (!raw || typeof raw !== "object") return { ok: false, reason: "not-object" };
+    if (raw.v !== VERSION) return { ok: false, reason: "version" };
+    const filter = raw.filter === "mixed" || SECTIONS.indexOf(raw.filter) >= 0 ? raw.filter : null;
+    const mode = raw.mode === "drill" || raw.mode === "missed" ? raw.mode : null;
+    if (!filter || !mode) return { ok: false, reason: "settings" };
+    const stats = normalizeStats(raw.stats);
+    const nonce = Number.isFinite(Number(raw.nonce)) ? Math.max(1, Number(raw.nonce)) : 1;
+    let deal = null;
+    if (raw.deal && typeof raw.deal === "object" && raw.deal.id && BY_ID[raw.deal.id]) {
+      const q = BY_ID[raw.deal.id];
+      const n = q.options ? q.options.length : 0;
+      if (n === 0) deal = { id: raw.deal.id, order: [], nonce: Number(raw.deal.nonce) || nonce };
+      else if (validOrder(raw.deal.order, n)) deal = { id: raw.deal.id, order: raw.deal.order.slice(), nonce: Number(raw.deal.nonce) || nonce };
+    }
+    const qids = Object.create(null);
+    for (const q of QUESTIONS) qids[q.id] = 1;
+    let queue = Array.isArray(raw.queue) ? raw.queue.filter((id) => qids[id] && (!deal || id !== deal.id)) : [];
+    if (!deal) {
+      const started = startSession(filter, mode, stats, nonce);
+      queue = started.queue;
+      deal = started.deal;
+    }
+    const selected = Array.isArray(raw.selected) ? raw.selected.filter((n) => Number.isInteger(n) && n >= 0) : [];
+    return {
+      ok: true,
+      state: {
+        v: VERSION,
+        filter,
+        mode,
+        stats,
+        queue,
+        deal,
+        nonce,
+        sessionTried: Math.max(0, Number(raw.sessionTried) || 0),
+        sessionRight: Math.max(0, Number(raw.sessionRight) || 0),
+        firstPassDone: !!raw.firstPassDone,
+        keepDrilling: !!raw.keepDrilling,
+        selected,
+        numInput: typeof raw.numInput === "string" ? raw.numInput : "",
+        submitted: !!raw.submitted,
+        wasCorrect: raw.wasCorrect === true ? true : raw.wasCorrect === false ? false : null
+      }
+    };
+  }
+  function storageAdapter(store) {
+    return store || (typeof localStorage !== "undefined" ? localStorage : null);
+  }
+  function saveState(state, store) {
+    const adapter = storageAdapter(store);
+    if (!adapter) return { ok: false, status: "unavailable" };
+    const payload = {
+      v: VERSION,
+      filter: state.filter,
+      mode: state.mode,
+      stats: state.stats,
+      queue: state.queue,
+      deal: state.deal,
+      nonce: state.nonce,
+      sessionTried: state.sessionTried,
+      sessionRight: state.sessionRight,
+      firstPassDone: state.firstPassDone,
+      keepDrilling: state.keepDrilling,
+      selected: state.selected,
+      numInput: state.numInput,
+      submitted: state.submitted,
+      wasCorrect: state.wasCorrect,
+      savedAt: new Date().toISOString()
+    };
+    try {
+      adapter.setItem(STORAGE_KEY, JSON.stringify(payload));
+      return { ok: true, status: "ok" };
+    } catch (err) {
+      const name = err && err.name;
+      if (name === "QuotaExceededError" || name === "NS_ERROR_DOM_QUOTA_REACHED") {
+        return { ok: false, status: "full" };
+      }
+      return { ok: false, status: "unavailable" };
+    }
+  }
+  function loadState(store) {
+    const adapter = storageAdapter(store);
+    if (!adapter) return { ok: false, status: "unavailable", state: freshState() };
+    let rawText;
+    try {
+      rawText = adapter.getItem(STORAGE_KEY);
+    } catch (err) {
+      return { ok: false, status: "unavailable", state: freshState() };
+    }
+    if (!rawText) return { ok: true, status: "empty", state: freshState() };
+    let raw;
+    try {
+      raw = JSON.parse(rawText);
+    } catch (err) {
+      return { ok: false, status: "malformed", state: freshState() };
+    }
+    const checked = validateState(raw);
+    if (!checked.ok) return { ok: false, status: "malformed", state: freshState(), reason: checked.reason };
+    return { ok: true, status: "ok", state: checked.state };
+  }
+  function exportPayload(state) {
+    return JSON.stringify({
+      app: "ellisdee.econ-cram.ch9-11",
+      v: VERSION,
+      exportedAt: new Date().toISOString(),
+      progress: {
+        v: VERSION,
+        filter: state.filter,
+        mode: state.mode,
+        stats: state.stats,
+        queue: state.queue,
+        deal: state.deal,
+        nonce: state.nonce,
+        sessionTried: state.sessionTried,
+        sessionRight: state.sessionRight,
+        firstPassDone: state.firstPassDone,
+        keepDrilling: state.keepDrilling,
+        selected: state.selected,
+        numInput: state.numInput,
+        submitted: state.submitted,
+        wasCorrect: state.wasCorrect
+      }
+    }, null, 2);
+  }
+  function importPayload(text) {
+    let raw;
+    try {
+      raw = JSON.parse(text);
+    } catch (err) {
+      return { ok: false, reason: "json" };
+    }
+    const body = raw && raw.progress ? raw.progress : raw;
+    const checked = validateState(body);
+    if (!checked.ok) return { ok: false, reason: checked.reason || "invalid" };
+    return { ok: true, state: checked.state };
+  }
+  function sectionStats(stats) {
+    return SECTIONS.map((sec) => {
+      const items = QUESTIONS.filter((q) => q.section === sec);
+      let attempts = 0, correct = 0, seen = 0, mastered = 0;
+      for (const q of items) {
+        const st = stats[q.id] || emptyStat();
+        attempts += st.attempts;
+        correct += st.correct;
+        if (st.seen) seen += 1;
+        if (st.streak >= 2) mastered += 1;
+      }
+      return {
+        sec,
+        label: SECTION_LABEL[sec],
+        attempts,
+        correct,
+        seen,
+        total: items.length,
+        mastered,
+        unmastered: items.length - mastered,
+        acc: attempts === 0 ? null : correct / attempts
+      };
+    });
+  }
+
+
+  function originBadge(q) {
+    const o = (q && q.origin) || "original";
+    const labels = {
+      original: ["badge badge-original", "Original bank"],
+      supported: ["badge badge-supported", "From the fuller log"],
+      recall: ["badge badge-recall", "Answer-key recall — original table/graph not supplied"],
+      substitute: ["badge badge-substitute", "Conceptual drill — original graph/table not supplied"],
+      supplemental: ["badge badge-supplemental", "Supplemental drill — not an exact missing original"]
+    };
+    const pair = labels[o] || labels.original;
+    return '<span class="' + pair[0] + '">' + pair[1] + "</span> ";
+  }
+  function renderGaps() {
+    const gl = $("gap-list");
+    const dl = $("dedupe-list");
+    if (!gl || !dl) return;
+    gl.innerHTML = GAPS.map((g) => "<div class='gap-item'><strong>" + escapeHtml(SECTION_LABEL[g.section] || g.section) + " · " + escapeHtml(g.item) + "</strong>" + escapeHtml(g.note) + "</div>").join("");
+    dl.innerHTML = DEDUPED.map((g) => "<div class='gap-item'><strong>" + escapeHtml(SECTION_LABEL[g.section] || g.section) + " · " + escapeHtml(g.item) + "</strong>" + escapeHtml(g.note) + "</div>").join("");
+  }
+
+  const API = {
+    QUESTIONS, STORAGE_KEY, VERSION, MISS_DELAY, SECTIONS, SECTION_LABEL, BY_ID,
+    hashSeed, shuffleCopy, emptyStats, sameSet, parseNum, answerText, poolFor,
+    buildFirstPass, buildReview, makeDeal, startSession, insertAfter, gradeQuestion,
+    applyGrade, advance, switchFilter, freshState, validateState, normalizeStats,
+    saveState, loadState, exportPayload, importPayload, sectionStats, validOrder, GAPS, DEDUPED, originBadge
+  };
+
+
+  function $(id) { return document.getElementById(id); }
+  let state = null;
+  let storageStatus = "ok";
+  let confirmReset = false;
+  let tab = "drill";
+
+  function persist() {
+    const res = saveState(state);
+    storageStatus = res.status;
+    return res;
+  }
+  function storageMessage() {
+    if (storageStatus === "unavailable") {
+      return "This browser blocked or cannot access local storage. Progress will not be saved after you close the page. Use Export backup if you can.";
+    }
+    if (storageStatus === "full") {
+      return "This browser's storage is full, so the latest progress could not be saved. Export a backup and free some site data if you can.";
+    }
+    if (storageStatus === "malformed") {
+      return "Saved progress was unreadable or from an incompatible version, so a fresh session was started. If you have an export file, use Import.";
+    }
+    return "";
+  }
+  function coverageOf() {
+    const pool = QUESTIONS.filter((q) => state.filter === "mixed" || q.section === state.filter);
+    let seen = 0, mastered = 0;
+    for (const q of pool) {
+      const st = state.stats[q.id] || emptyStat();
+      if (st.seen) seen += 1;
+      if (st.streak >= 2) mastered += 1;
+    }
+    return { seen, mastered, total: pool.length };
+  }
+  function render() {
+    const q = state.deal ? BY_ID[state.deal.id] : null;
+    const cov = coverageOf();
+    const acc = state.sessionTried ? Math.round((state.sessionRight / state.sessionTried) * 100) + "%" : "—";
+    $("m-answered").textContent = String(state.sessionTried);
+    $("m-accuracy").textContent = acc;
+    $("m-cover").textContent = cov.seen + "/" + cov.total;
+    $("m-mastered").textContent = cov.mastered + "/" + cov.total;
+    $("filter").value = state.filter;
+    $("mode-drill").setAttribute("aria-selected", state.mode === "drill" ? "true" : "false");
+    $("mode-missed").setAttribute("aria-selected", state.mode === "missed" ? "true" : "false");
+    $("tab-drill").setAttribute("aria-selected", tab === "drill" ? "true" : "false");
+    $("tab-progress").setAttribute("aria-selected", tab === "progress" ? "true" : "false");
+    $("pane-drill").classList.toggle("hidden", tab !== "drill");
+    $("pane-progress").classList.toggle("hidden", tab !== "progress");
+    const msg = storageMessage();
+    const banner = $("storage-banner");
+    if (msg) {
+      banner.className = "banner " + (storageStatus === "malformed" || storageStatus === "full" ? "warn" : "warn");
+      banner.textContent = msg;
+      banner.classList.remove("hidden");
+    } else {
+      banner.classList.add("hidden");
+    }
+    $("reset-confirm").classList.toggle("hidden", !confirmReset);
+
+    const firstPass = cov.seen >= cov.total && cov.total > 0;
+    const allMastered = cov.total > 0 && cov.mastered === cov.total;
+    $("first-pass").classList.toggle("hidden", !(firstPass && state.mode === "drill"));
+    $("all-mastered").classList.toggle("hidden", !allMastered);
+
+    if (!q) {
+      $("question-card").classList.add("hidden");
+      $("empty-state").classList.remove("hidden");
+      $("empty-state").textContent = state.mode === "missed"
+        ? "No missed questions in this filter yet. Stay on cover-everything drill until you miss one."
+        : "No questions left in this filter. Reset the session, switch sections, or open missed / weak spots.";
+    } else {
+      $("empty-state").classList.add("hidden");
+      $("question-card").classList.remove("hidden");
+      const kindLabel = q.kind === "multi" ? "Select all that apply" : q.kind === "num" ? "Numeric" : "Single choice";
+      $("q-meta").textContent = SECTION_LABEL[q.section] + " · " + q.source + " · " + kindLabel;
+      $("q-concept").innerHTML = originBadge(q) + escapeHtml(q.concept);
+      $("q-prompt").textContent = q.prompt;
+      const numWrap = $("num-wrap");
+      const choices = $("choices");
+      if (q.kind === "num") {
+        numWrap.classList.remove("hidden");
+        choices.classList.add("hidden");
+        $("num-input").value = state.numInput;
+        $("num-input").disabled = state.submitted;
+      } else {
+        numWrap.classList.add("hidden");
+        choices.classList.remove("hidden");
+        const type = q.kind === "multi" ? "checkbox" : "radio";
+        choices.innerHTML = "";
+        state.deal.order.forEach((orig, displayIdx) => {
+          const label = document.createElement("label");
+          const isSel = state.selected.indexOf(displayIdx) >= 0;
+          const isCorrectOpt = (q.correct || []).indexOf(orig) >= 0;
+          label.className = "choice";
+          if (isSel && !state.submitted) label.classList.add("selected");
+          if (state.submitted && isCorrectOpt) label.classList.add("correct");
+          if (state.submitted && isSel && !isCorrectOpt) label.classList.add("wrong");
+          const input = document.createElement("input");
+          input.type = type;
+          input.name = "econ-answer";
+          input.value = String(displayIdx);
+          input.checked = isSel;
+          input.disabled = state.submitted;
+          input.addEventListener("change", () => {
+            if (state.submitted) return;
+            if (q.kind === "multi") {
+              const set = new Set(state.selected);
+              if (input.checked) set.add(displayIdx); else set.delete(displayIdx);
+              state.selected = Array.from(set).sort((a, b) => a - b);
+            } else {
+              state.selected = [displayIdx];
+            }
+            persist();
+            render();
+          });
+          const text = document.createElement("span");
+          text.textContent = (displayIdx + 1) + ". " + (q.options[orig] || "");
+          label.appendChild(input);
+          label.appendChild(text);
+          choices.appendChild(label);
+        });
+      }
+      const canSubmit = !state.submitted && !gradeQuestion(q, state.deal, state.selected, state.numInput).blank;
+      $("btn-submit").classList.toggle("hidden", state.submitted);
+      $("btn-continue").classList.toggle("hidden", !state.submitted);
+      $("btn-submit").disabled = !canSubmit;
+      const fb = $("feedback");
+      if (state.submitted && state.wasCorrect === true) {
+        fb.className = "feedback ok";
+        fb.innerHTML = "<strong>Correct</strong>" + escapeHtml(q.explanation);
+        fb.classList.remove("hidden");
+      } else if (state.submitted && state.wasCorrect === false) {
+        fb.className = "feedback bad";
+        fb.innerHTML = "<strong>Not quite.</strong> Correct answer: " + escapeHtml(answerText(q)) + ". " + escapeHtml(q.explanation);
+        fb.classList.remove("hidden");
+      } else {
+        fb.classList.add("hidden");
+        fb.textContent = "";
+      }
+    }
+    renderProgress();
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+  function accLabel(acc) {
+    return acc == null ? "—" : Math.round(acc * 100) + "%";
+  }
+  function renderProgress() {
+    renderGaps();
+    const rows = sectionStats(state.stats);
+    const tb = $("section-rows");
+    tb.innerHTML = "";
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + escapeHtml(row.label) + "</td>" +
+        "<td class='num'>" + row.seen + "/" + row.total + "</td>" +
+        "<td class='num'>" + row.attempts + "</td>" +
+        "<td class='num'>" + row.correct + "</td>" +
+        "<td class='num'>" + accLabel(row.acc) + "</td>" +
+        "<td class='num'>" + row.mastered + "</td>" +
+        "<td class='num'>" + row.unmastered + "</td>" +
+        "<td><button class='btn' data-drill='" + row.sec + "'>Drill this</button></td>";
+      tb.appendChild(tr);
+    }
+    tb.querySelectorAll("button[data-drill]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state = switchFilter(state, btn.getAttribute("data-drill"), "drill");
+        tab = "drill";
+        confirmReset = false;
+        persist();
+        render();
+        window.scrollTo(0, 0);
+      });
+    });
+    const missRoot = $("miss-list");
+    missRoot.innerHTML = "";
+    let any = false;
+    for (const sec of SECTIONS) {
+      const items = QUESTIONS.filter((q) => q.section === sec && state.stats[q.id] && state.stats[q.id].missed);
+      if (!items.length) continue;
+      any = true;
+      const block = document.createElement("div");
+      block.className = "miss-block";
+      const h = document.createElement("h3");
+      h.textContent = SECTION_LABEL[sec] + " misses";
+      block.appendChild(h);
+      const table = document.createElement("table");
+      table.innerHTML = "<thead><tr><th>Question / concept</th><th>Correct answer</th></tr></thead>";
+      const body = document.createElement("tbody");
+      for (const item of items) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + escapeHtml(item.prompt) + "<div class='meta'>" + escapeHtml(item.concept + " · " + item.source) + "</div></td><td>" + escapeHtml(answerText(item)) + "</td>";
+        body.appendChild(tr);
+      }
+      table.appendChild(body);
+      block.appendChild(table);
+      const b = document.createElement("button");
+      b.className = "btn";
+      b.textContent = "Drill " + SECTION_LABEL[sec] + " misses";
+      b.addEventListener("click", () => {
+        state = switchFilter(state, sec, "missed");
+        tab = "drill";
+        persist();
+        render();
+        window.scrollTo(0, 0);
+      });
+      block.appendChild(b);
+      missRoot.appendChild(block);
+    }
+    if (!any) {
+      missRoot.innerHTML = "<p class='sub'>No missed questions in this session yet.</p>";
+    }
+  }
+  function onSubmit() {
+    const q = state.deal ? BY_ID[state.deal.id] : null;
+    if (!q || state.submitted) return;
+    const g = gradeQuestion(q, state.deal, state.selected, state.numInput);
+    if (g.blank) return;
+    state = applyGrade(state, g.ok);
+    persist();
+    render();
+  }
+  function onContinue() {
+    if (!state.submitted) return;
+    state = advance(state);
+    confirmReset = false;
+    persist();
+    render();
+  }
+  function boot() {
+    const loaded = loadState();
+    state = loaded.state;
+    storageStatus = loaded.status === "empty" ? "ok" : loaded.status;
+    $("filter").addEventListener("change", (e) => {
+      state = switchFilter(state, e.target.value, state.mode);
+      confirmReset = false;
+      persist();
+      render();
+    });
+    $("mode-drill").addEventListener("click", () => {
+      state = switchFilter(state, state.filter, "drill");
+      confirmReset = false;
+      persist();
+      render();
+    });
+    $("mode-missed").addEventListener("click", () => {
+      state = switchFilter(state, state.filter, "missed");
+      confirmReset = false;
+      persist();
+      render();
+    });
+    $("tab-drill").addEventListener("click", () => { tab = "drill"; render(); });
+    $("tab-progress").addEventListener("click", () => { tab = "progress"; render(); });
+    $("num-input").addEventListener("input", (e) => {
+      if (state.submitted) return;
+      state.numInput = e.target.value;
+      persist();
+    });
+    $("btn-submit").addEventListener("click", onSubmit);
+    $("btn-continue").addEventListener("click", onContinue);
+    $("btn-reset").addEventListener("click", () => { confirmReset = true; render(); });
+    $("btn-reset-no").addEventListener("click", () => { confirmReset = false; render(); });
+    $("btn-reset-yes").addEventListener("click", () => {
+      state = freshState();
+      confirmReset = false;
+      const res = saveState(state);
+      storageStatus = res.status;
+      render();
+    });
+    $("btn-mixed").addEventListener("click", () => {
+      state = switchFilter(state, "mixed", "drill");
+      tab = "drill";
+      persist();
+      render();
+    });
+    $("btn-export").addEventListener("click", () => {
+      const blob = new Blob([exportPayload(state)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "econ-cram-progress.json";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(a.href);
+        a.remove();
+      }, 500);
+    });
+    $("btn-import").addEventListener("click", () => $("import-file").click());
+    $("import-file").addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      e.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = importPayload(String(reader.result || ""));
+        if (!result.ok) {
+          storageStatus = "malformed";
+          render();
+          return;
+        }
+        if (!window.confirm("Replace current saved progress with this backup?")) return;
+        state = result.state;
+        const saved = persist();
+        storageStatus = saved.status === "ok" ? "ok" : saved.status;
+        tab = "drill";
+        render();
+      };
+      reader.readAsText(file);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.repeat || tab !== "drill") return;
+      const tag = (e.target && e.target.tagName) || "";
+      const typing = tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA";
+      if (e.key === "Enter") {
+        if (typing && tag !== "INPUT") return;
+        e.preventDefault();
+        if (state.submitted) onContinue();
+        else onSubmit();
+        return;
+      }
+      if (typing || state.submitted || !state.deal) return;
+      const q = BY_ID[state.deal.id];
+      if (!q || !q.options) return;
+      const map = { "1": 0, "2": 1, "3": 2, "4": 3 };
+      if (!(e.key in map)) return;
+      const idx = map[e.key];
+      if (idx >= state.deal.order.length) return;
+      e.preventDefault();
+      if (q.kind === "multi") {
+        const set = new Set(state.selected);
+        if (set.has(idx)) set.delete(idx); else set.add(idx);
+        state.selected = Array.from(set).sort((a, b) => a - b);
+      } else {
+        state.selected = [idx];
+      }
+      persist();
+      render();
+    });
+
+    const reloadBtn = $("btn-reload");
+    if (reloadBtn) reloadBtn.addEventListener("click", () => location.reload());
+    if (typeof location !== "undefined" && location.protocol !== "file:" && typeof navigator !== "undefined" && navigator.serviceWorker) {
+      navigator.serviceWorker.register("sw.js", { scope: "./" }).then((reg) => {
+        if (reg.waiting) {
+          const b = $("update-banner");
+          if (b) b.classList.add("show");
+        }
+        reg.addEventListener("updatefound", () => {
+          const sw = reg.installing;
+          if (!sw) return;
+          sw.addEventListener("statechange", () => {
+            if (sw.state === "installed" && navigator.serviceWorker.controller) {
+              const b = $("update-banner");
+              if (b) b.classList.add("show");
+            }
+          });
+        });
+      }).catch(() => {});
+    }
+
+    render();
+  }
+
+  API.boot = boot;
+  root.EconCram = API;
+  if (typeof document !== "undefined" && document.getElementById && document.getElementById("app")) {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+    else boot();
+  }
+
+  })(typeof window !== "undefined" ? window : globalThis);
+  </script>
+</body>
+</html>
